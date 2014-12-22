@@ -1,0 +1,27 @@
+<h2><%= @group.cn %></h2>
+
+<h3>Students</h2>
+<ul>
+    <% @group.students.each do |student| %>
+        <li><%= link_to student.cn, student_path(dn: student.dn) %>
+    <% end %>
+</ul>
+
+<h3>Mentors</h2>
+<ul>
+    <% @group.mentors.each do |mentor| %>
+        <li><%= link_to mentor.cn, mentor_path(dn: mentor.dn) %>
+    <% end %>
+</ul>
+
+<h3>Parents</h2>
+<ul>
+    <% @group.parents.each do |parent| %>
+        <li><%= link_to parent.cn, parent_path(dn: parent.dn) %>
+    <% end %>
+</ul>
+
+<pre>
+<%= @group.list.join ', ' %>
+</pre>
+

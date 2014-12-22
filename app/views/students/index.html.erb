@@ -1,0 +1,8 @@
+<h1>Students#index</h1>
+<p>Find me in app/views/students/index.html.erb</p>
+
+<ul>
+<% @students.each do |student| %>
+    <li><%= link_to student.cn, student_path(dn: student.dn) %></li>
+<% end %>
+</ul>

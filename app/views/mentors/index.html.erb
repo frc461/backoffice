@@ -1,0 +1,8 @@
+<h1>Mentors#index</h1>
+<p>Find me in app/views/mentors/index.html.erb</p>
+
+<ul>
+    <% @mentors.each do |mentor| %>
+        <li><%= link_to mentor.cn, mentor_path(dn: mentor.dn) %></li>
+    <% end %>
+</ul>
