@@ -1,0 +1,7 @@
+<h1>Alias List</h1>
+
+<ul>
+    <% @aliases.each do |a| %>
+        <li><%= link_to a.cn + "@boilerinvasion.org", alias_path(dn: a.dn) %> <%= fa_icon 'caret-right' %> <%= [a.roleOccupant].flatten.map{|e| link_to(User.find(e).mail, user_path(e))}.join(', ').html_safe %>
+    <% end %>
+</ul>

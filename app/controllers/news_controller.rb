@@ -66,7 +66,7 @@ class NewsController < ApplicationController
   private
   
   def authorize
-      current_mentor || current_role?('exec') || current_role?('news')
+      redirect_to root_path, error: "You can't do that." unless current_mentor || current_role?('exec') || current_role?('news')
   end
     # Use callbacks to share common setup or constraints between actions.
     def set_news

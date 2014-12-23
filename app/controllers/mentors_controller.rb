@@ -10,6 +10,6 @@ class MentorsController < ApplicationController
 
   private
   def authorize
-      redirect_to root_path, error: "You can't do that." unless current_mentor || current_role?('administrator')
+      redirect_to root_path, error: "You can't do that." unless current_mentor || current_role?('administrator') || current_role?('exec')
   end
 end

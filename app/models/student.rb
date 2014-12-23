@@ -14,4 +14,12 @@ class Student < ActiveLdap::Base
   def user
       User.find(dn)
   end
+
+  def accounts
+      Account.where(user_dn: self.dn)
+  end
+
+  def Student.list
+      self.find(:all).map{|s| s.mail}
+  end
 end

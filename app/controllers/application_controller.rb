@@ -32,17 +32,25 @@ class ApplicationController < ActionController::Base
     end
 
     def user_path dn
-        case User.find(dn).me
-        when Mentor
-            mentor_path(dn: dn)
-        when Student
-            student_path(dn: dn)
-        when Parent
-            parent_path(dn: dn)
-        else
-            root_path
+        begin
+            if u = User.find(dn)
+                case u.me
+                when Mentor
+                    mentor_path(dn: u.dn)
+                when Student
+                    student_path(dn: u.dn)
+                when Parent
+                    parent_path(dn: u.dn)
+                else
+                    "mailto:#{u.mail}"
+                end
+            else
+               "#" 
+            end
+        rescue
+            Rails.logger.error "INVALID DN ATTEMPT: #{dn}"
+            return '#'
         end
-
     end
 
     helper_method :current_user, :current_role?, :current_mentor, :user_path

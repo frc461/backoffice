@@ -1,0 +1,8 @@
+<h1><%= @alias.cn %></h1>
+
+<h3>Sends To</h3>
+<ul>
+    <% [@alias.roleOccupant].flatten.each do |e| %>
+        <li><%= link_to(User.find(e).mail, user_path(e)) %></li>
+    <% end %>
+</ul>

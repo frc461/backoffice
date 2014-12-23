@@ -1,8 +1,19 @@
-<h1>Students#index</h1>
-<p>Find me in app/views/students/index.html.erb</p>
+<h1>Students</h1>
 
-<ul>
-<% @students.each do |student| %>
-    <li><%= link_to student.cn, student_path(dn: student.dn) %></li>
+<% @students.in_groups_of(6) do |r| %>
+    <div class="row">
+    <% r.each do |student| %>
+        <div class="large-2 columns">
+        <% if student %>
+            <%= link_to student_path(dn: student.dn) do %>
+            <%= user_photo student %>
+        <%= student.cn %>
+    <% end %>
+
+    <% end %>
+    </div>
 <% end %>
-</ul>
+</div>
+<% end %>
+
+

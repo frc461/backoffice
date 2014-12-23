@@ -9,4 +9,12 @@ class Mentor < ActiveLdap::Base
   def user
       User.find(dn)
   end
+  
+  def accounts
+      Account.where(user_dn: self.dn.to_s)
+  end
+
+  def Mentor.list
+      self.find(:all).map{|s| s.mail}
+  end
 end

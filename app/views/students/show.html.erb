@@ -1,17 +1,36 @@
-<h2><%= @student.cn %></h2>
-<h3>Groups</h3>
-<ul>
-<% @student.groups.each do |group| %>
-    <li><%= link_to group.cn, group_path(dn: group) %></li>
-<% end %>
-</ul>
+<h1><%= @student.cn %></h1>
 
-<h3>Parents</h3>
-<ul>
-    <% @student.parents.each do |parent| %>
-        <li><%= link_to parent.cn, parent_path(dn: parent.dn) %></li>
-    <% end %>
-</ul>
+<div class="row">
+    <div class="large-3 columns">
+        <%= user_photo @student %>
+    </div>
+    <div class="large-3 columns">
+        <h3>Groups</h3>
+        <ul>
+            <% @student.groups.each do |group| %>
+                <li><%= link_to group.cn, group_path(dn: group) %></li>
+        <% end %>
+        </ul>
+
+    </div>
+    <div class="large-3 columns">
+        <h3>Parents</h3>
+        <ul>
+            <% @student.parents.each do |parent| %>
+                <li><%= link_to parent.cn, parent_path(dn: parent.dn) %></li>
+        <% end %>
+        </ul>
+    </div>
+    <div class="large-3 columns">
+        <h3>Roles</h3>
+        <ul>
+            <% [@student.employeeType].flatten.each do |r| %>
+                <li><%= r %></li>
+        <% end %>
+        </ul>
+    </div>
+</div>
+
 
 <%= render partial: 'users/accounts', locals: {user: @student} %>
 <%= render partial: 'users/password', locals: {user: @student} %>

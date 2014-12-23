@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  post 'mailgun/receive'
+
   resources :accounts do
       member do
           post 'post'
@@ -14,17 +16,20 @@ Rails.application.routes.draw do
   post 'session/create', as: :log_in
   get 'session/destroy', as: :log_out
 
-  get 'group/index', as: :groups
-  get 'group/show', as: :group
+  get 'aliases' => 'alias#index', as: :aliases
+  get 'aliases/show' => 'alias#show', as: :alias
 
-  get 'mentors/index', as: :mentors
-  get 'mentors/show', as: :mentor
+  get 'groups' => 'group#index', as: :groups
+  get 'groups/show' => 'group#show', as: :group
 
-  get 'parents/index', as: :parents
-  get 'parents/show', as: :parent
+  get 'mentors' => 'mentors#index', as: :mentors
+  get 'mentors/show' => 'mentors#show', as: :mentor
 
-  get 'students/index', as: :students
-  get 'students/show', as: :student
+  get 'parents' => 'parents#index', as: :parents
+  get 'parents/show' => 'parents#show', as: :parent
+
+  get 'students' => 'students#index', as: :students
+  get 'students/show' => 'students#show', as: :student
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

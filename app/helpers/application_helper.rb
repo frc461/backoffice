@@ -14,10 +14,18 @@ module ApplicationHelper
             end
             Array(message).each do |msg|
                 text = content_tag(:li, content_tag(:a, content_tag(:div,
-                                                    msg.html_safe, :class => "alert-box #{type}")))
+                                                                    msg.html_safe, :class => "alert-box #{type}")))
                 flash_messages << text if msg
             end
         end
         flash_messages.join("\n").html_safe
+    end
+
+    def user_photo u
+        if u.jpegPhoto
+            image_tag 'data:image/jpeg;base64,' + Base64.encode64(u.jpegPhoto), class: 'userimage'
+        else
+            image_tag 'generic.png', class: 'userimage'
+        end 
     end
 end

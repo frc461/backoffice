@@ -1,42 +1,52 @@
-<h1>Parents#show</h1>
-<p>Find me in app/views/parents/show.html.erb</p>
+<h1><%= @parent.cn %></h1>
+<div class="row">
+    <div class="large-4 columns">
+        <h3>Students</h3>
+        <ul>
+            <% @parent.students.each do |student| %>
+                <li><%= link_to student.cn, student_path(dn: student.dn) %></li>
+        <% end %>
+        </ul>
+    </div>
 
-<h2><%= @parent.cn %></h2>
-
-<h3>Students</h3>
-<ul>
-    <% @parent.students.each do |student| %>
-        <li><%= link_to student.cn, student_path(dn: student.dn) %></li>
-    <% end %>
-</ul>
-
-<h3>Groups</h3>
-<ul>
-    <% @parent.groups.each do |group| %>
-        <li><%= link_to group.cn, group_path(dn: group) %></li>
-    <% end %>
-</ul>
+    <div class="large-4 columns">
+        <h3>Groups</h3>
+        <ul>
+            <% @parent.groups.each do |group| %>
+                <li><%= link_to group.cn, group_path(dn: group) %></li>
+        <% end %>
+        </ul>
+    </div>
+    <div class="large-4 columns">
+        <h3>Roles</h3>
+        <ul>
+            <% [@parent.employeeType].flatten.each do |r| %>
+                <li><%= r %></li>
+        <% end %>
+        </ul>
+    </div>
+</div>
 
 <div class="panel">
     <h3>Accounts</h3>
-<table>
-    <thead>
-        <tr>
-            <th>Owner</th>
-            <th>Account</th>
-            <th>Balance</th>
-        </tr>
-    </thead>
-    <tbody>
+    <table>
+        <thead>
+            <tr>
+                <th>Owner</th>
+                <th>Account</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
         <% @accounts.each do |account| %>
             <tr>
-                <td><%= account.user ? link_to(account.friendly_user, user_path(account.user)) : 'System/System' %></td>
-                <td><%= link_to account.name, account %></td>
-                <td><%= humanized_money_with_symbol account.balance %></td>
-            </tr>
-        <% end %>
-    </tbody>
-</table>
+            <td><%= account.user ? link_to(account.friendly_user, user_path(account.user)) : 'System/System' %></td>
+            <td><%= link_to account.name, account %></td>
+            <td><%= humanized_money_with_symbol account.balance %></td>
+        </tr>
+    <% end %>
+        </tbody>
+    </table>
 
 </div>
 

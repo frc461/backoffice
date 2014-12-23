@@ -1,11 +1,29 @@
 <h2><%= @mentor.cn %></h2>
 
-<h3>Groups</h3>
-<ul>
-    <% @mentor.groups.each do |group| %>
-        <li><%= link_to group.cn, group_path(dn: group) %></li>
-    <% end %>
-</ul>
+<div class="row">
+    <div class="large-2 columns">
+        <%= user_photo @mentor %>
+    </div>
+
+    <div class="large-5 columns">
+
+        <h3>Groups</h3>
+        <ul>
+            <% @mentor.groups.each do |group| %>
+                <li><%= link_to group.cn, group_path(dn: group) %></li>
+        <% end %>
+        </ul>
+    </div>
+
+    <div class="large-5 columns">
+        <h3>Roles</h3>
+        <ul>
+            <% [@mentor.employeeType].flatten.each do |r| %>
+                <li><%= r %></li>
+        <% end %>
+        </ul>
+    </div>
+</div>
 
 <%= render partial: 'users/accounts', locals: {user: @mentor} %>
 <%= render partial: 'users/password', locals: {user: @mentor} %>

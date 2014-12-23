@@ -11,6 +11,10 @@ class User < ActiveLdap::Base
       nil
   end
 
+  def User.list
+      Student.list + Mentor.list + Parent.list
+  end
+
   def friendly
       "#{org}/#{cn}"
   end

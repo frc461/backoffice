@@ -14,4 +14,13 @@ class Parent < ActiveLdap::Base
   def user
       User.find(dn)
   end
+
+  def accounts
+      dns = [self.dn.to_s] + self.students.map{|s| s.dn.to_s}
+      Account.where(user_dn: @dns)
+  end
+  
+  def Parent.list
+      self.find(:all).map{|s| s.mail}
+  end
 end
