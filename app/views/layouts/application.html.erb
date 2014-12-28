@@ -19,20 +19,24 @@
         </ul>
 
         <section class="top-bar-section">
-        <ul class="left">
-            <% if current_mentor || current_role?('administrator') || current_role?('exec') %>
+            <ul class="left">
+                <% if current_user %>
                 <li><%= link_to "Students", students_path %></li>
                 <li><%= link_to "Mentors", mentors_path %></li>
-                <li><%= link_to "Parents", parents_path %></li>
                 <li><%= link_to "Groups", groups_path %></li>
-                <li><%= link_to "Aliases", aliases_path %></li>
+            <% if current_mentor || current_role?('administrator') %>
+                <li><%= link_to "Parents", parents_path %></li>
             <% end %>
             <% if current_mentor || current_role?('exec') || current_role?('news') || current_role?('administrator') %>
                 <li><%= link_to "News", news_index_path %></li>
             <% end %>
-            <% if current_role?('administrator') || current_role?('bookkeeper') %>
+            <% if current_role?('bookkeeper') %>
                 <li><%= link_to "Accounts", accounts_path %></li>
             <% end %>
+            <% if current_role?('administrator') %>
+                <li><%= link_to "Aliases", aliases_path %></li>
+            <% end %>
+        <% end %>
             <% if flash.count > 0 %>
                 <li class="has-dropdown"><%= link_to fa_icon('bell'), '#' %>
                 <ul class="dropdown">

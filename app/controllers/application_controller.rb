@@ -53,5 +53,5 @@ class ApplicationController < ActionController::Base
         end
     end
 
-    helper_method :current_user, :current_role?, :current_mentor, :user_path
+    helper_method :current_user, :current_role?, :current_mentor, :user_path, :child_of_current_parent
 end

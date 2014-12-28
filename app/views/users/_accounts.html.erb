@@ -1,4 +1,4 @@
-<% if current_user == user || current_role?('bookkeeper') || current_role?('administrator') || child_of_current_parent %>
+<% if current_user == user || current_role?('bookkeeper') || current_role?('administrator') || child_of_current_parent(user) %>
     <div class="panel">
     <h3>Accounts</h3>
 <table>

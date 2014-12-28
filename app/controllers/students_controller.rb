@@ -1,11 +1,7 @@
 class StudentsController < ApplicationController
-    before_action :authorize
+    #before_action :authorize
   def index
-      if current_mentor
-      @students = Student.find(:all)
-      else
-      redirect_to root_path, notice: "You aren't allowed to do that." unless current_mentor
-      end
+      @students = Student.find(:all).sort_by{|s| [s.roomNumber.to_i, s.sn]}
   end
 
   def show
@@ -15,6 +11,6 @@ class StudentsController < ApplicationController
 
   private
   def authorize
-      redirect_to root_path, error: "You can't do that." unless current_mentor || current_role?('administrator') || current_role?('exec')
+      redirect_to root_path, alert: "You can't do that." unless current_mentor || current_role?('administrator') || current_role?('exec')
   end
 end

@@ -14,6 +14,10 @@ class Mentor < ActiveLdap::Base
       Account.where(user_dn: self.dn.to_s)
   end
 
+  def set_initial_accounts
+      Account.create(code: "M", name: "Incidentals", description: "Miscellaneous money for food, shirts, etc.", user_dn: self.dn.to_s)
+  end
+
   def Mentor.list
       self.find(:all).map{|s| s.mail}
   end

@@ -19,7 +19,10 @@ class Parent < ActiveLdap::Base
       dns = [self.dn.to_s] + self.students.map{|s| s.dn.to_s}
       Account.where(user_dn: @dns)
   end
-  
+
+  def set_initial_accounts
+      Account.create(code: "M", name: "Incidentals", description: "Miscellaneous money for food, shirts, etc.", user_dn: self.dn.to_s)
+  end
   def Parent.list
       self.find(:all).map{|s| s.mail}
   end

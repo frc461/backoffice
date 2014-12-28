@@ -6,7 +6,7 @@
         <div class="large-2 columns">
         <% if student %>
             <%= link_to student_path(dn: student.dn) do %>
-            <%= user_photo student %>
+                <%= user_photo student %> [<%= student.roomNumber %>]
         <%= student.cn %>
     <% end %>
 

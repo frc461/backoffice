@@ -1,0 +1,17 @@
+<% if current_user == user || current_mentor || current_role?('exec') || current_role?('administrator') || child_of_current_parent(user) %>
+
+    <div class="panel">
+    <h3>Contact Info</h3>
+    <div class="row">
+        <% User.CONTACT_ATTRS.each do |attr| %>
+            <% if user[attr] && !user[attr].empty? %>
+                <div class="large-4 columns contact">
+                    <h4><%= attr %></h4>
+                    <%= [user[attr]].flatten.join(', ') %>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+</div>
+
+<% end %>
