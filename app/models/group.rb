@@ -18,4 +18,12 @@ class Group < ActiveLdap::Base
       [self.member].flatten.map{|u| User.find(u.to_s).mail}
   end
 
+  def name_list
+      h = {}
+      [self.member].flatten.each do |u|
+          u = User.find(u)
+          h[u.mail] = {cn: u.cn, gn: u.gn, sn: u.sn}
+     end
+      h
+  end
 end

@@ -15,6 +15,10 @@ class User < ActiveLdap::Base
       Student.list + Mentor.list + Parent.list
   end
 
+  def User.name_list
+      Student.name_list + Mentor.name_list + Parent.name_list
+  end
+
   def friendly
       "#{org}/#{cn}"
   end
