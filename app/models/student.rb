@@ -40,6 +40,8 @@ class Student < ActiveLdap::Base
           'Senior'
       when 99
           'Alumnus'
+      else
+          "Undefined"
       end
   end
 
