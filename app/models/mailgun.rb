@@ -14,7 +14,7 @@ class Mailgun
                 :to => to,
                 :subject => subject,
                 :text => text,
-                :'recipient-variables:' => vars
+                :'recipient-variables' => vars.to_json
         end
 
         def send_to_group group, from, subject, text, vars=nil
