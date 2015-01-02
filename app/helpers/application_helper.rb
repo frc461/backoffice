@@ -23,7 +23,7 @@ module ApplicationHelper
 
     def user_photo u
         if u.jpegPhoto
-            image_tag 'data:image/jpeg;base64,' + Base64.encode64(u.jpegPhoto), class: 'userimage'
+            image_tag 'generic.png', class: 'userimage waiting', data: {:dn => u.dn.to_s}
         else
             image_tag 'generic.png', class: 'userimage'
         end 

@@ -22,4 +22,9 @@ class DashboardController < ApplicationController
           redirect_to root_path, alert: "You can't do that."
       end
   end
+
+  def uimg
+      @user = User.find(params[:dn])
+      render text: 'data:image/jpeg;base64,' + Base64.encode64(@user.jpegPhoto)
+  end
 end

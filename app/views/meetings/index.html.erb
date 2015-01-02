@@ -1,0 +1,27 @@
+<h1>Meetings</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Meeting</th>
+            <th>Start</th>
+            <th>Finish</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @meetings.each do |meeting| %>
+            <tr>
+                <td><%= link_to meeting.name, meeting %><p><%= meeting.description %></p></td>
+                <td><%= meeting.start.strftime('%A, %B %d at %I:%M') %></td>
+                <td><%= meeting.finish.strftime('%A, %B %d at %I:%M') %></td>
+                <td><% if !meeting.verified %> <%= link_to "Check In", attend_meeting_path(meeting, user_dn: current_user.dn.to_s), class: 'button primary' %> <% end %></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<% if current_mentor || current_role('exec') || current_role('administrator') %>
+    <%= link_to "New Meeting", new_meeting_path, class: 'button success' %>
+<% end %>

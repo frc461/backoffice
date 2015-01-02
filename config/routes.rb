@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
 
+  resources :meetings do
+      member do
+          get 'attend'
+          get 'unattend'
+      end
+  end
+
   post 'mailgun/receive'
 
   resources :accounts do
@@ -9,6 +16,8 @@ Rails.application.routes.draw do
   end
 
   resources :news
+
+  get 'uimg' => 'dashboard#uimg'
 
   get 'me' => 'dashboard#me', as: :me
 

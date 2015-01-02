@@ -1,0 +1,36 @@
+<h1><%= @meeting.name %></h1>
+
+<p><%= @meeting.description %></p>
+
+<p>From <%= @meeting.start.strftime('%A, %B %d at %I:%M') %> to <%= @meeting.finish.strftime('%A, %B %d at %I:%M') %> at <%= @meeting.location %></p>
+
+
+<h3>Attendance</h3>
+
+<% @meeting.attendance_list.in_groups_of(6) do |r| %>
+    <div class="row">
+    <% r.each do |m| %>
+        <div class="large-2 columns">
+        <% if m %>
+            <% u = User.find(m) %>
+            <%= link_to user_path(u.dn) do %>
+                <%= user_photo(u) %>
+               <%= u.cn %>
+            <% end %>
+            <% if current_mentor || current_role('exec') || current_role('attendance') || current_role('administrator') || (!@meeting.verified && current_user.dn == u.dn) %>
+                <% if u.attending? @meeting %>
+                    <%= link_to "Leave", unattend_meeting_path(@meeting, user_dn: u.dn.to_s), class: 'button warning' %>
+                <% else %>
+                    <%= link_to "Check In", attend_meeting_path(@meeting, user_dn: u.dn.to_s), class: 'button success' %>
+                <% end %>
+            <% end %>
+        <% end %>
+    </div>
+<% end %>
+</div>
+
+<% end %>
+
+<% if current_mentor || current_role('exec') || current_role('administrator') %>
+    <%= link_to 'Edit', edit_meeting_path(@meeting) %> 
+<% end %>

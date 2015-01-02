@@ -3,21 +3,8 @@ class Parent < ActiveLdap::Base
                prefix: "ou=Parents",
                classes: ["inetOrgPerson"]
 
-  def groups
-      Group.find(:all, filter: {member: self.dn.to_s})
-  end
-
   def students
       [self.seeAlso].flatten.map{|s| Student.find(s.to_s)}
-  end
-
-  def user
-      User.find(dn)
-  end
-
-  def accounts
-      dns = [self.dn.to_s] + self.students.map{|s| s.dn.to_s}
-      Account.where(user_dn: @dns)
   end
 
   def set_initial_accounts

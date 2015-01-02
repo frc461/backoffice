@@ -50,3 +50,7 @@ table {
         font-size: 0.8em;
     }
 }
+
+select[name^="meeting"] {
+    width: 15%;
+}
