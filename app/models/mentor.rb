@@ -1,4 +1,5 @@
 class Mentor < ActiveLdap::Base
+  include Person
   ldap_mapping dn_attribute: "mail",
                prefix: "ou=Mentors",
                classes: ["inetOrgPerson"]

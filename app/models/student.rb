@@ -1,4 +1,5 @@
 class Student < ActiveLdap::Base
+  include Person
   ldap_mapping dn_attribute: "mail",
                prefix: "ou=Students",
                classes: ["inetOrgPerson"]

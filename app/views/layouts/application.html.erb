@@ -38,13 +38,11 @@
                 <li><%= link_to "Aliases", aliases_path %></li>
             <% end %>
         <% end %>
-            <% if flash.count > 0 %>
-                <li class="has-dropdown"><%= link_to fa_icon('bell'), '#' %>
-                <ul class="dropdown">
+        <li id="alert-nav" class="has-dropdown<%= flash.count > 0 ? '' : ' hidden' %>"><%= link_to fa_icon('bell'), '#' %>
+                <ul class="dropdown" id="alert-list">
                     <%= foundation_flash %>
                 </ul>
                 </li>
-            <% end %>
             <li class="divider"></li>
             <li id="spinner"><%= image_tag 'spinner.gif' %></li>
         </ul>
@@ -63,6 +61,31 @@
             <div class="small-12 columns">
                 <%= yield %>
             </div>
+        </div>
+
+        <div class="row">
+            <% if current_user %>
+                <dt>Menu</dt>
+                <dl class="sub-nav">
+                <dd><%= link_to "Students", students_path %></dd>
+                <dd><%= link_to "Mentors", mentors_path %></dd>
+                <dd><%= link_to "Groups", groups_path %></dd>
+                <dd><%= link_to "Meetings", meetings_path %></dd>
+            <% if current_mentor || current_role?('administrator') %>
+                <dd><%= link_to "Parents", parents_path %></dd>
+            <% end %>
+            <% if current_mentor || current_role?('exec') || current_role?('news') || current_role?('administrator') %>
+                <dd><%= link_to "News", news_index_path %></dd>
+            <% end %>
+            <% if current_role?('bookkeeper') %>
+                <dd><%= link_to "Accounts", accounts_path %></dd>
+            <% end %>
+            <% if current_role?('administrator') %>
+                <dd><%= link_to "Aliases", aliases_path %></dd>
+            <% end %>
+        <% end %>
+    </dl>
+
         </div>
         <%= javascript_include_tag "application" %>
     </body>

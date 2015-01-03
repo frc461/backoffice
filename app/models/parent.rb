@@ -1,4 +1,5 @@
 class Parent < ActiveLdap::Base
+  include Person
   ldap_mapping dn_attribute: "mail",
                prefix: "ou=Parents",
                classes: ["inetOrgPerson"]

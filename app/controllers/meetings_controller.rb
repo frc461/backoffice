@@ -71,38 +71,39 @@ class MeetingsController < ApplicationController
       if @meeting.verified
           if current_mentor || current_role?('attendance') || current_role?('exec')
               Checkin.create(:meeting_id => @meeting.id, :user_dn => params[:user_dn])
-              flash[:info] = "Checked in."
+              q = "Checked in."
           else
-              flash[:error] = "An approved user must check you in to this meeting."
+              q = "An approved user must check you in to this meeting."
           end
       else
           if current_user.dn == params[:user_dn] || current_mentor || current_role?('attendance') || current_role?('exec')
               Checkin.create(:meeting_id => @meeting.id, :user_dn => params[:user_dn])
-              flash[:info] = "Checked in."
+              q = "Checked in."
           else
-              flash[:error] = "Only approved users can check other people into meetings."
+              q = "Only approved users can check other people into meetings."
           end
       end
-      redirect_to @meeting
+
+      render text: q
   end
 
   def unattend
       if @meeting.verified
           if current_mentor || current_role?('attendance') || current_role?('exec')
               Checkin.where(:meeting_id => @meeting.id, :user_dn => params[:user_dn]).delete_all
-              flash[:info] = "Left meeting."
+              q = "Left meeting."
           else
-              flash[:error] = "An approved user must remove you in to this meeting."
+              q = "An approved user must remove you in to this meeting."
           end
       else
           if current_user.dn == params[:user_dn] || current_mentor || current_role?('attendance') || current_role?('exec')
               Checkin.where(:meeting_id => @meeting.id, :user_dn => params[:user_dn]).delete_all
-              flash[:info] = "Left meeting."
+              q = "Left meeting."
           else
-              flash[:error] = "Only approved users can remove other people from meetings."
+              q = "Only approved users can remove other people from meetings."
           end
       end
-      redirect_to @meeting
+      render text: q
   end
 
   private

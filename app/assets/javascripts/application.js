@@ -16,4 +16,9 @@
 //= require turbolinks
 //= require_tree .
 
+function alert(c, m) {
+    $('#alert-list').append('<li><a><div class="alert-box ' + c + '">' + m + '</div></a></li>');
+    $('#alert-nav').removeClass('hidden');
+}
+
 $(function(){ $(document).foundation(); });
