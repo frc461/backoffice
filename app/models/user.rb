@@ -11,7 +11,7 @@ class User < ActiveLdap::Base
       user = find(:first, filter: {mail: mail})
       user.bind(password)
       user
-  rescue ActiveLdap::EntryNotFound, ActiveLdap::AuthenticationError, ActiveLdap::LdapError::UnwillingToPerform 
+  rescue ActiveLdap::EntryNotFound, ActiveLdap::AuthenticationError, ActiveLdap::LdapError::UnwillingToPerform, NoMethodError
       nil
   end
 
