@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141228210127) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20150102194925) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
@@ -27,7 +24,28 @@ ActiveRecord::Schema.define(version: 20141228210127) do
     t.string   "code"
   end
 
-  add_index "accounts", ["code", "user_dn"], name: "index_accounts_on_code_and_user_dn", unique: true, using: :btree
+  add_index "accounts", ["code", "user_dn"], name: "index_accounts_on_code_and_user_dn", unique: true
+
+  create_table "checkins", force: true do |t|
+    t.integer  "meeting_id"
+    t.string   "user_dn"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "checkins", ["user_dn", "meeting_id"], name: "index_checkins_on_user_dn_and_meeting_id", unique: true
+
+  create_table "meetings", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "location"
+    t.datetime "start"
+    t.datetime "finish"
+    t.boolean  "required",    default: false
+    t.boolean  "verified",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "news", force: true do |t|
     t.string   "title"
