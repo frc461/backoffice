@@ -22,6 +22,6 @@
     </tbody>
 </table>
 
-<% if current_mentor || current_role('exec') || current_role('administrator') %>
+<% if current_mentor || current_role?('exec') || current_role?('administrator') %>
     <%= link_to "New Meeting", new_meeting_path, class: 'button success' %>
 <% end %>
