@@ -25,20 +25,20 @@ class MailgunController < ApplicationController
                         Rails.logger.info("Message sent to lists")
                         if md[1] =~ /students/i
                             Rails.logger.info("Sending message to students")
-                            Mailgun.send(Student.list - [from], to, "[#{g.cn.upcase}] #{subject}", body, Student.name_list)
+                            Mailgun.send(Student.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Student.name_list, to)
                         elsif md[1] =~ /mentors/i
                             Rails.logger.info("Sending message to mentors")
-                            Mailgun.send(Mentor.list - [from], to, "[#{g.cn.upcase}] #{subject}", body, Mentor.name_list)
+                            Mailgun.send(Mentor.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Mentor.name_list, to)
                         elsif md[1] =~ /parents/i
                             Rails.logger.info("Sending message to parents")
-                            Mailgun.send(Parent.list - [from], to, "[#{g.cn.upcase}] #{subject}", body, Parent.name_list)
+                            Mailgun.send(Parent.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Parent.name_list, to)
                         elsif md[1] =~ /everyone/i
                             Rails.logger.info("Sending message to everyone")
-                            Mailgun.send(User.list - [from], to, "[#{g.cn.upcase}] #{subject}", body, User.name_list)
+                            Mailgun.send(User.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, User.name_list, to)
                         else
                             if g = Group.find(:first, md[1])
                                 Rails.logger.info("Sending message to #{g.cn.upcase} for #{md[1]}")
-                                Mailgun.send(g.list - [from], to, (subject =~ /^\[/ ? subject : "[#{g.cn.upcase}] #{subject}"), body, g.name_list)
+                                Mailgun.send(g.list - [from], from, (subject =~ /^\[/ ? subject : "[#{g.cn.upcase}] #{subject}"), body, g.name_list, to)
                             else
                                 Rails.logger.info("Bad group specified: #{md[1]}")
                                 render text: "Bad Group", status: 200

@@ -8,12 +8,13 @@ class Mailgun
             signature == OpenSSL::HMAC.hexdigest(digest,Rails.application.secrets.mailgun_api_key , data)
         end
 
-        def send to, from, subject, text, vars=nil
+        def send to, from, subject, text, vars=nil, reply=nil
             RestClient.post 'https://api:key-3b54b4da075069b7750c8d79a5d4ca15@api.mailgun.net/v2/sandbox935faa4fe652499b942c660a43411ad9.mailgun.org/messages', 
                 :from => from,
                 :to => to,
                 :subject => subject,
                 :text => text,
+                :"h:Reply-To" => reply,
                 :'recipient-variables' => vars.to_json
         end
 
