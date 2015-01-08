@@ -17,4 +17,4 @@
 
 /config/database.yml
 /config/secrets.yml
-/config/intializers/ldap.rb
+/config/initializers/ldap.rb
