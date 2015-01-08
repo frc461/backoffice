@@ -16,5 +16,5 @@
 /tmp
 
 /config/database.yml
-/config/ldap.yml
 /config/secrets.yml
+/config/intializers/ldap.rb
