@@ -1,0 +1,22 @@
+@media print {
+    nav {
+        display: none !important;
+    }
+
+    .bottom-menu {
+        display: none !important;
+    }
+
+    .column {
+        float: left;
+    }
+
+    a[href]:after {
+        content: '' !important;
+    }
+
+    .student-column {
+        width: 50% !important;
+        float: left !important;
+    }
+}

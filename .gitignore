@@ -20,3 +20,4 @@
 /config/initializers/ldap.rb
 /config/ldap.yml
 /config/secrets.yml
+/public/assets
