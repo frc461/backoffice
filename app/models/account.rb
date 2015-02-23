@@ -6,11 +6,19 @@ class Account < ActiveRecord::Base
         if self.user_dn.empty?
             "System/System"
         else
-            User.find(self.user_dn).friendly
+            if x = User.find(:first, self.user_dn)
+                x.friendly
+            else
+                nil
+            end
         end
     end
 
     def user
-        User.find(self.user_dn).me
+       if x = User.find(:first, self.user_dn)
+           x.me
+       else
+           nil
+       end
     end
 end

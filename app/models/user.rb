@@ -20,7 +20,7 @@ class User < ActiveLdap::Base
   end
 
   def User.name_list
-      Student.name_list + Mentor.name_list + Parent.name_list
+      Student.name_list.merge(Mentor.name_list).merge(Parent.name_list)
   end
 
 end

@@ -8,6 +8,10 @@ class MailgunController < ApplicationController
         token = params['token']
         timestamp = params['timestamp']
         signature = params['signature']
+        attachment = []
+        0.upto(params['attachment-count'].to_i) do |i|
+            attachment << params["attachment-#{i}"]
+        end
         if Mailgun.verify(token, timestamp, signature)
             begin
                 if u = User.find(from)
@@ -15,6 +19,9 @@ class MailgunController < ApplicationController
                     case to
                     when /(.+)@boilerinvasion.org/i, /(.+)@a.boilerinvasion.org/i
                         if a = Alias.find(:first, $1)
+                            to = User.find([a.roleOccupant].flatten.first).mail
+                            Rails.logger.info("Sending message to alias #{a.cn} => #{to}")
+                            Mailgun.send(to, from, subject, body, nil, nil, attachment)
                         else
                             Rails.logger.info("Bad alias specified: #{$1}")
                             render text: "Bad Alias", status: 200
@@ -25,20 +32,20 @@ class MailgunController < ApplicationController
                         Rails.logger.info("Message sent to lists")
                         if md[1] =~ /students/i
                             Rails.logger.info("Sending message to students")
-                            Mailgun.send(Student.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Student.name_list, to)
+                            Mailgun.send(Student.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Student.name_list, to, attachment)
                         elsif md[1] =~ /mentors/i
                             Rails.logger.info("Sending message to mentors")
-                            Mailgun.send(Mentor.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Mentor.name_list, to)
+                            Mailgun.send(Mentor.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Mentor.name_list, to, attachment)
                         elsif md[1] =~ /parents/i
                             Rails.logger.info("Sending message to parents")
-                            Mailgun.send(Parent.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Parent.name_list, to)
+                            Mailgun.send(Parent.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Parent.name_list, to, attachment)
                         elsif md[1] =~ /everyone/i
                             Rails.logger.info("Sending message to everyone")
-                            Mailgun.send(User.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, User.name_list, to)
+                            Mailgun.send(User.list, from, "[WBI] #{subject}", body, User.name_list, to, attachment)
                         else
                             if g = Group.find(:first, md[1])
                                 Rails.logger.info("Sending message to #{g.cn.upcase} for #{md[1]}")
-                                Mailgun.send(g.list - [from], from, (subject =~ /^\[/ ? subject : "[#{g.cn.upcase}] #{subject}"), body, g.name_list, to)
+                                Mailgun.send(g.list - [from], from, (subject =~ /^\[/ ? subject : "[#{g.cn.upcase}] #{subject}"), body, g.name_list, to, attachment)
                             else
                                 Rails.logger.info("Bad group specified: #{md[1]}")
                                 render text: "Bad Group", status: 200

@@ -1,5 +1,5 @@
 <h2><%= @account.name %></h2>
-<h3><%= @account.user_dn.empty? ? "System" : link_to(@account.user.cn, user_path(@account.user.dn)) %></h3>
+<h3><%= (@account.user_dn.empty? || !@account.user) ? "System" : link_to(@account.user.cn, user_path(@account.user.dn)) %></h3>
 
 <% if current_role?('administrator') || current_role?(:bookkeeper) %>
     <div class="panel">
