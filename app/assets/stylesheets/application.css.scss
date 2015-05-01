@@ -57,3 +57,11 @@ table {
 select[name^="meeting"] {
     width: 15%;
 }
+
+@media print {
+    @for $i from 1 through 12 {
+        .large-#{$i} {
+            width: gridCalc($i, 12);
+        }
+    }
+}

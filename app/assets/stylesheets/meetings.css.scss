@@ -2,3 +2,39 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.meetingList {
+    img {
+        width: 4em !important;
+    }
+    border-collapse: collapse;
+
+    td, th {
+        border: 2px solid black !important;
+        padding: 4px;
+    }
+}
+
+@media print {
+    .top-bar, .sub-nav {
+        display: none !important;
+    }
+
+    table {
+        page-break-inside: auto;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 2px;
+    }
+
+    p {
+        margin-bottom: 2px;
+    }
+
+}

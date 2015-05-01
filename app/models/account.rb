@@ -2,6 +2,19 @@ class Account < ActiveRecord::Base
     monetize :balance_cents
     has_many :transactions
 
+    def Account.CODES
+        {
+            '0' => 'Testing',
+            'D' => 'Dues',
+            'X' => 'General Team',
+            'M' => 'Miscellaneous'
+        }
+    end
+
+    def full_name
+        "#{code} - #{name} - #{user_dn.empty? ? "System" : friendly_user}"
+    end
+
     def friendly_user
         if self.user_dn.empty?
             "System/System"

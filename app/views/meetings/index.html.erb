@@ -16,7 +16,21 @@
                 <td><%= link_to meeting.name, meeting %><p><%= meeting.description %></p></td>
                 <td><%= meeting.start.strftime('%A, %B %d at %I:%M') %></td>
                 <td><%= meeting.finish.strftime('%A, %B %d at %I:%M') %></td>
-                <td><% if !meeting.verified %> <%= link_to "Check In", attend_meeting_path(meeting, user_dn: current_user.dn.to_s), class: 'button primary' %> <% end %></td>
+                <td>
+                    <% if current_user.attending?(meeting) %>
+                        <% if meeting.verified %>
+                            <%= link_to "Checked in!", meeting, class: 'button success expand' %>
+                        <% else %>
+                            <%= link_to "Leave", unattend_meeting_path(meeting, user_dn: current_user.dn.to_s), class: 'button warning expand' %>
+                        <% end %>
+                    <% else %>
+                        <% if meeting.verified %>
+                            <%= link_to "Not checked in!", meeting, class: 'button secondary expand' %>
+                        <% else %>
+                            <%= link_to "Check In", attend_meeting_path(meeting, user_dn: current_user.dn.to_s), class: 'button primary expand' %>
+                        <% end %>
+                    <% end %>
+                </td>
             </tr>
         <% end %>
     </tbody>
@@ -25,3 +39,5 @@
 <% if current_mentor || current_role?('exec') || current_role?('administrator') %>
     <%= link_to "New Meeting", new_meeting_path, class: 'button success' %>
 <% end %>
+
+<%= link_to "All Meetings", meetings_path(scale: 'all'), class: 'button secondary' %>

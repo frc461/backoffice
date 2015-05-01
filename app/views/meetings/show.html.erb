@@ -4,7 +4,11 @@
 
 <p>From <%= @meeting.start.strftime('%A, %B %d at %I:%M') %> to <%= @meeting.finish.strftime('%A, %B %d at %I:%M') %> at <%= @meeting.location %></p>
 
-<% if current_mentor || current_role('exec') || current_role('attendance') || current_role('administrator') || !@meeting.verified %>
+<% if current_user.attending?(@meeting) %>
+    <p>You're attending this meeting!</p>
+<% end %>
+
+<% if current_mentor || current_role?('exec') || current_role?('attendance') || current_role?('administrator') || !@meeting.verified %>
     <div class="">
     <% if current_user.attending?(@meeting) %>
         <%= link_to "Leave", '#', data: {url: unattend_meeting_path(@meeting, user_dn: current_user.dn.to_s)}, class: 'button warning ajax' %>
@@ -12,27 +16,50 @@
     <%= link_to "Check In", '#', data: {url: attend_meeting_path(@meeting, user_dn: current_user.dn.to_s)}, class: 'button success ajax' %>
 <% end %>
 </div>
-            <% end %>
+<% end %>
 
-<% if current_mentor || current_role('exec') || current_role('administrator') %>
-    <%= link_to 'Edit', edit_meeting_path(@meeting), class: 'button warning' %> 
+<% if current_user.attending?(@meeting) || current_mentor || current_role?('exec') || current_role?('attendance') || current_role?('administrator') %>
+    <h3>Who's Checked In</h3>
+    <div>
+    <% @meeting.attendance_list.in_groups_of(6) do |r| %>
+        <div class="row">
+            <% r.each do |u| %>
+                <div class="large-2 columns">
+                    <% if u %>
+                        <%= link_to user_path(u.dn) do %>
+                            <%= user_photo(u) %>
+                            <%= u.cn %>
+                        <% end %>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+    <% end %>
+</div>
+<%= link_to "Check In List", list_meeting_path(@meeting), class: 'button primary' %>
+<% end %>
+
+
+<% if current_mentor || current_role?('exec') || current_role?('administrator') %>
+    <%= link_to 'Edit Meeting Details', edit_meeting_path(@meeting), class: 'button warning' %> 
 <h3>Attendance</h3>
 
-<% @meeting.attendance_list.in_groups_of(6) do |r| %>
+<% (current_mentor || current_role?('exec') || current_role?('administrator') || current_role('attendance') ? User.all : @meeting.attendance_list).in_groups_of(6) do |r| %>
     <div class="row">
-    <% r.each do |m| %>
+    <% r.each do |u| %>
         <div class="large-2 columns">
-        <% if m %>
-            <% u = User.find(m) %>
+        <% if u %>
         <%= link_to user_path(u.dn) do %>
             <%= user_photo(u) %>
         <%= u.cn %>
     <% end %>
-        <% if current_mentor || current_role('exec') || current_role('attendance') || current_role('administrator') || (!@meeting.verified && current_user.dn == u.dn) %>
+        <% if current_mentor || current_role?('exec') || current_role?('attendance') || current_role?('administrator') || (!@meeting.verified && current_user == u) %>
+            <p>
             <% if u.attending?(@meeting) %>
         <%= link_to "Leave", '#', data: {url: unattend_meeting_path(@meeting, user_dn: u.dn.to_s)}, class: 'button warning ajax' %>
 <% else %>
     <%= link_to "Check In", '#', data: {url: attend_meeting_path(@meeting, user_dn: u.dn.to_s)}, class: 'button success ajax' %>
+    </p>
     <% end %>
     <% end %>
     <% end %>
@@ -43,3 +70,4 @@
 <% end %>
 
 <% end %>
+

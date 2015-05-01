@@ -1,0 +1,27 @@
+<h1>Listing polls</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @polls.each do |poll| %>
+      <tr>
+        <td><%= link_to poll.title, poll %></td>
+        <td><%= poll.content %></td>
+        <td><%= poll.options.gsub("\n", "<br/>").html_safe %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% if current_role?('pollster') || current_role?('administrator') %>
+    <%= link_to 'New Poll', new_poll_path, class: 'button' %>
+<% end %>

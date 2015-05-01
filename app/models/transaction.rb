@@ -5,4 +5,8 @@ class Transaction < ActiveRecord::Base
     def poster
         User.find(poster_dn)
     end
+    
+    def sponsor
+        Sponsor.find(sponsor_dn)
+    end
 end

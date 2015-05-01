@@ -1,7 +1,18 @@
 Rails.application.routes.draw do
+  get 'utility/users'
+  get 'utility/accounts'
+
+  resources :polls do
+      member do
+          post 'vote'
+          get 'cancel'
+          get 'close'
+      end
+  end
 
   resources :meetings do
       member do
+          get 'list'
           get 'attend'
           get 'unattend'
       end
@@ -18,18 +29,26 @@ Rails.application.routes.draw do
   resources :news
 
   get 'uimg' => 'dashboard#uimg'
+  get 'u' => 'dashboard#user'
+  get 'u/:dn' => 'dashboard#user'
 
   get 'me' => 'dashboard#me', as: :me
 
   post 'reset' => 'session#reset', as: :reset_password
+  post 'profile' => 'session#update', as: :update_profile
   post 'session/create', as: :log_in
   get 'session/destroy', as: :log_out
+
+  get 'sponsors' => 'sponsors#index', as: :sponsors
+  get 'sponsors/show' => 'sponsors#show', as: :sponsor
+  post 'sponsors/post' => 'sponsors#post', as: :post_sponsor
 
   get 'aliases' => 'alias#index', as: :aliases
   get 'aliases/show' => 'alias#show', as: :alias
 
   get 'groups' => 'group#index', as: :groups
   get 'groups/show' => 'group#show', as: :group
+  post 'groups/update' => 'group#update', as: :update_group
 
   get 'mentors' => 'mentors#index', as: :mentors
   get 'mentors/show' => 'mentors#show', as: :mentor

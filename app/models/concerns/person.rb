@@ -12,6 +12,10 @@ module Person
       User.find(dn)
   end
 
+  def dns
+      dn.to_s
+  end
+
   def friendly
       "#{org}/#{cn}"
   end

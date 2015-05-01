@@ -1,0 +1,59 @@
+<h1><%= @poll.title %></h1>
+
+<%= @poll.content %>
+
+
+<% if @poll.can_vote?(current_user) %>
+<% if @poll.votes.where(user_dn: current_user.dn.to_s).count > 0 %>
+    <p>You already voted.  <%= link_to "Cancel my vote", cancel_poll_path(@poll) %></p>
+<% else %>
+    <%= form_tag vote_poll_path(@poll) do %>
+        <% @poll.options.each_line do |opt| %>
+            <div class="checkbox">
+                <label>
+                    <%= radio_button_tag :opt, opt %>
+                    <%= opt %>
+                </label>
+            </div>
+        <% end %>
+            <%= submit_tag "Vote!", class: 'button' %>
+    <% end %>
+<% end %>
+    <% else %>
+        <p>You don't get a vote.  Your opinion is either not wanted or not important.</p>
+    <% end %>
+
+    <% if current_role?('pollster') || current_role?('administrator') %>
+
+        <h2>Results</h2>
+        <table>
+            <thead>
+                <th>Option</th>
+                <th>Raw</th>
+                <th>Percent</th>
+            </thead>
+            <tbody>
+                <% @poll.options.each_line do |opt| %>
+                    <tr>
+                        <td><%= opt %></td>
+                        <td><%= c = @poll.votes.where(value: opt).count %></td>
+                        <td>
+                            <%= if @poll.votes.count > 0
+                                (c.to_f / (t ||= @poll.votes.count)).round(5) * 100
+                                else
+                                    '0'
+                                end%>
+                                 %</td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <% if @poll.closed %>
+            <%= link_to "Delete Poll", @poll, method: 'DELETE', class: 'button alert', data: {confirm: 'Really delete poll & votes?'} %>
+        <% else %>
+            <%= link_to "Close Poll", close_poll_path(@poll), class: 'button info' %>
+        <% end %>
+<%= link_to 'Edit', edit_poll_path(@poll) %> |
+<%= link_to 'Back', polls_path %>
+<% end %>

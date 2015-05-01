@@ -32,26 +32,27 @@ class ApplicationController < ActionController::Base
     end
 
     def user_path dn
-        begin
-            if u = User.find(dn)
-                case u.me
-                when Mentor
-                    mentor_path(dn: u.dn)
-                when Student
-                    student_path(dn: u.dn)
-                when Parent
-                    parent_path(dn: u.dn)
-                else
-                    "mailto:#{u.mail}"
-                end
-            else
-               "#" 
-            end
-        rescue
-            Rails.logger.error "INVALID DN ATTEMPT: #{dn}"
-            return '#'
+       '/u?dn=' + dn.to_s
+    end
+
+    def nice_contact_attr attr
+        case attr
+        when 'cn'
+            "Full Name"
+        when 'mobile'
+            "Cell Phone"
+        when 'mail'
+            "Email Address"
+        when 'pager'
+            "Other Phone"
+        when 'homePostalAddress'
+            "Home Address"
+        when 'telephoneNumber'
+            "Home Phone"
+        when 'st'
+            "Shirt Size"
         end
     end
 
-    helper_method :current_user, :current_role?, :current_mentor, :user_path, :child_of_current_parent
+    helper_method :current_user, :current_role?, :current_mentor, :user_path, :child_of_current_parent, :nice_contact_attr
 end

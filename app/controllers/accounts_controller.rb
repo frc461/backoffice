@@ -67,7 +67,7 @@ class AccountsController < ApplicationController
       @transaction = Transaction.new
       @transaction.account = @account
       @transaction.poster_dn = current_user.dn.to_s
-      @transaction.amount = params[:amount]
+      @transaction.amount = Monetize.parse(params[:amount])
       @transaction.icon = params[:icon]
       @transaction.description = params[:description]
       if @transaction.save

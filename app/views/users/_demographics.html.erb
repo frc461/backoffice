@@ -1,0 +1,25 @@
+<% if current_user == user || current_role?('directory') || current_role?('administrator') %>
+    <div class="panel">
+    <h4>Update Contact Info</h4>
+    <%= form_tag update_profile_path do %>
+        <%= hidden_field_tag :dn, user.dn.to_s %>
+        <%= label_tag :cn, "Display Name" %>
+        <%= text_field_tag :cn, user.cn %>
+        <%= label_tag :sn, "Last Name" %>
+        <%= text_field_tag :sn, user.sn %>
+        <%= label_tag :gn, "First Name" %>
+        <%= text_field_tag :gn, user.gn %>
+        <%= label_tag :homePhone, "Home Phone" %>
+        <%= text_field_tag :homePhone, user.homePhone %>
+        <%= label_tag :mobile, "Cell Phone" %>
+        <%= text_field_tag :mobile, user.mobile %>
+        <%= label_tag :fax, "Other Phone" %>
+        <%= text_field_tag :fax, user.fax %>
+        <%= label_tag :homePostalAddress, "Home Address" %>
+        <%= text_area_tag :homePostalAddress, user.homePostalAddress %>
+        <%= label_tag :st, "Shirt Size" %>
+        <%= text_field_tag :st, user.st %>
+        <%= submit_tag "Submit Info", class: 'button' %>
+    <% end %>
+</div>
+<% end %>

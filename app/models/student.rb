@@ -10,8 +10,8 @@ class Student < ActiveLdap::Base
 
   
   def set_initial_accounts
-      Account.create(code: "D", name: "Team Dues", description: "Do your part to keep the team running", user_dn: self.dn.to_s)
-      Account.create(code: "M", name: "Incidentals", description: "Miscellaneous money for food, shirts, etc.", user_dn: self.dn.to_s)
+      #Account.create(code: "D", name: "Team Dues", description: "Do your part to keep the team running", user_dn: self.dn.to_s)
+      #Account.create(code: "M", name: "Incidentals", description: "Miscellaneous money for food, shirts, etc.", user_dn: self.dn.to_s)
   end
 
   def grade
@@ -28,10 +28,12 @@ class Student < ActiveLdap::Base
           'Junior'
       when 12
           'Senior'
-      when 99
-          'Alumnus'
       else
-          "Undefined"
+          if self.roomNumber.to_i > 1990
+            "Alumnus (#{self.roomNumber})"
+          else
+              "Undefined"
+          end
       end
   end
 

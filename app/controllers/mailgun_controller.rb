@@ -32,20 +32,20 @@ class MailgunController < ApplicationController
                         Rails.logger.info("Message sent to lists")
                         if md[1] =~ /students/i
                             Rails.logger.info("Sending message to students")
-                            Mailgun.send(Student.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Student.name_list, to, attachment)
+                            Mailgun.send(Student.list, from, "[WBI STUDENTS] #{subject}", body, Student.name_list, to, attachment)
                         elsif md[1] =~ /mentors/i
                             Rails.logger.info("Sending message to mentors")
-                            Mailgun.send(Mentor.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Mentor.name_list, to, attachment)
+                            Mailgun.send(Mentor.list, from, "[WBI MENTORS] #{subject}", body, Mentor.name_list, to, attachment)
                         elsif md[1] =~ /parents/i
                             Rails.logger.info("Sending message to parents")
-                            Mailgun.send(Parent.list - [from], from, "[#{g.cn.upcase}] #{subject}", body, Parent.name_list, to, attachment)
+                            Mailgun.send(Parent.list, from, "[WBI PARENTS] #{subject}", body, Parent.name_list, to, attachment)
                         elsif md[1] =~ /everyone/i
                             Rails.logger.info("Sending message to everyone")
-                            Mailgun.send(User.list, from, "[WBI] #{subject}", body, User.name_list, to, attachment)
+                            Mailgun.send(User.list, from, "[WBI] #{subject}", body, User.name_list, nil, attachment)
                         else
                             if g = Group.find(:first, md[1])
                                 Rails.logger.info("Sending message to #{g.cn.upcase} for #{md[1]}")
-                                Mailgun.send(g.list - [from], from, (subject =~ /^\[/ ? subject : "[#{g.cn.upcase}] #{subject}"), body, g.name_list, to, attachment)
+                                Mailgun.send(g.list, from, (subject =~ /^\[/ ? subject : "[#{g.cn.upcase}] #{subject}"), body, g.name_list, to, attachment)
                             else
                                 Rails.logger.info("Bad group specified: #{md[1]}")
                                 render text: "Bad Group", status: 200

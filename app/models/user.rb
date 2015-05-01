@@ -5,7 +5,7 @@ class User < ActiveLdap::Base
                classes: ["inetOrgPerson"]
 
   def User.CONTACT_ATTRS
-      ['cn', 'mobile', 'mail', 'fax', 'pager', 'homePostalAddress', 'telephoneNumber']
+      ['cn', 'mobile', 'mail', 'fax', 'pager', 'homePostalAddress', 'telephoneNumber', 'st']
   end
   def User.authenticate(mail, password)
       user = find(:first, filter: {mail: mail})

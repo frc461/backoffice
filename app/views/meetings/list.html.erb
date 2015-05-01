@@ -1,0 +1,31 @@
+<h1><%= @meeting.name %></h1>
+
+<p>From <%= @meeting.start.strftime('%A, %B %d at %I:%M') %> to <%= @meeting.finish.strftime('%A, %B %d at %I:%M') %> at <%= @meeting.location %></p>
+
+<table class="meetingList">
+    <thead>
+        <th>Photo</th>
+        <th>Person</th>
+        <th>Check 1</th>
+        <th>Check 2</th>
+        <th>Check 3</th>
+        <th>Check 4</th>
+        <th>Check 5</th>
+        <th>Check 6</th>
+    </thead>
+
+    <tbody>
+    <% @meeting.attendance_list.sort_by{|u| [u.sn, u.gn] }.each do |u| %>
+            <tr>
+                <td><%= user_photo(u) %></td>
+                <td><%= u.cn %><% if u.mobile %><br/><%= u.mobile %><% end %></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>

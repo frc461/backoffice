@@ -1,0 +1,7 @@
+<h1>Sponsors</h1>
+
+<ul>
+    <% @sponsors.each do |s| %>
+        <li><%= link_to s.o, sponsor_path(dn: s.dn.to_s) %></li>
+<% end %>
+</ul>

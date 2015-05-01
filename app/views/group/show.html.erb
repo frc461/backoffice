@@ -18,3 +18,82 @@
 </div>
 
 <% end %>
+
+<% if current_role?('administrator') %>
+    <h3>Manage Members</h3>
+<%= form_tag update_group_path do %>
+    <%= hidden_field_tag :dn, @group.dn.to_s %>
+<ul class="accordion" data-accordion>
+    <li class="accordion-navigation">
+    <a href="#studentsPanel">Students</a>
+    <div id="studentsPanel" class="content active">
+        <%= Student.all.in_groups_of(4) do |r| %>
+            <div class="row">
+            <% r.each do |u| %>
+                <div class="large-3 columns">
+                <% if u %>
+                    <%= check_box_tag 'members[]', u.dn, @group.member.include?(u.dn) %>
+                <%= u.cn %>
+            <% end %>
+            </div>
+        <% end %>
+        </div>
+    <% end %>
+    </div>
+    </li>
+    <li class="accordion-navigation">
+    <a href="#mentorsPanel">Mentors</a>
+    <div id="mentorsPanel" class="content">
+        <%= Mentor.all.in_groups_of(4) do |r| %>
+            <div class="row">
+            <% r.each do |u| %>
+                <div class="large-3 columns">
+                <% if u %>
+                    <%= check_box_tag 'members[]', u.dn, @group.member.include?(u.dn) %>
+                <%= u.cn %>
+            <% end %>
+            </div>
+        <% end %>
+        </div>
+    <% end %>
+    </div>
+    </li>
+    <li class="accordion-navigation">
+    <a href="#parentsPanel">Parents</a>
+    <div id="parentsPanel" class="content">
+        <%= Parent.all.in_groups_of(4) do |r| %>
+            <div class="row">
+            <% r.each do |u| %>
+                <div class="large-3 columns">
+                <% if u %>
+                    <%= check_box_tag 'members[]', u.dn, @group.member.include?(u.dn) %>
+                <%= u.cn %>
+            <% end %>
+            </div>
+        <% end %>
+        </div>
+    <% end %>
+    </div>
+    </li>
+    <li class="accordion-navigation">
+    <a href="#contactsPanel">Contacts</a>
+    <div id="contactsPanel" class="content">
+        <%= Contact.all.in_groups_of(4) do |r| %>
+            <div class="row">
+            <% r.each do |u| %>
+                <div class="large-3 columns">
+                <% if u %>
+                    <%= check_box_tag 'members[]', u.dn, @group.member.include?(u.dn) %>
+                <%= u.cn %>
+            <% end %>
+            </div>
+        <% end %>
+        </div>
+    <% end %>
+    </div>
+    </li>
+
+</ul>
+<%= submit_tag "Update", class: 'button success' %>
+        <% end %>
+    <% end %>

@@ -1,0 +1,68 @@
+<h1><%= @sponsor.o %></h1>
+
+<div class="row">
+    <div class="large-4 columns">
+        <h3>Info</h3>
+        <dl>
+            <dt>Contact Person</dt>
+            <dd><%= @sponsor.description %></dd>
+            <dt>Email</dt>
+            <dd><%= @sponsor.l %></dd>
+            <dt>Phone Number</dt>
+            <dd><%= @sponsor.telephoneNumber %></dd>
+            <dt>Mailing Address</dt>
+            <dd><%= @sponsor.postalAddress.gsub('$', '<br/>').html_safe %></dd>
+        </dl>
+    </div>
+
+    <div class="large-8 columns">
+        <h3>Donations</h3>
+        <% if @sponsor.transactions.count > 0 %>
+            <table>
+            <% @sponsor.transactions.each do |transaction| %>
+                <tr>
+                <td><%= link_to transaction.account.name, transaction.account %></td>
+                <td><%= transaction.account.user ? link_to(transaction.account.user.cn, user_path(transaction.account.user.dn.to_s)) : ' - ' %></td>
+                <td><%= humanized_money_with_symbol transaction.amount %></td>
+            </tr>
+        <% end %>
+        </table>
+        <h4>Total Donations - <%= humanized_money_with_symbol Money.new(@sponsor.transactions.sum(:amount_cents)) %></h4>
+    <% else %>
+            <h4>Total Donations - <%= humanized_money_with_symbol 0 %></h4>
+    <% end %>
+
+        <h3>Post Donation</h3>
+        <%= form_tag post_sponsor_path(dn: @sponsor.dn.to_s) do %> 
+            <div class="row">
+                <div class="large-3 columns">
+                    <%= label_tag :amount %>
+                    <%= number_field_tag :amount, nil, step: 0.01 %>
+                </div>
+
+                <div class="large-3 columns">
+                    <%= label_tag :icon %>
+                    <%= text_field_tag :icon, 'plus-circle' %>
+                </div>
+
+                <div class="large-6 columns">
+                    <%= label_tag :description %>
+                    <%= text_field_tag :description %>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="large-8 columns">
+                    <%= label_tag :account %>
+                    <%= select_tag :account_id, options_from_collection_for_select(Account.all, :id, :full_name) %>
+                </div>
+                <div class="large-4 columns">
+                    <div class="large-3 columns">
+                        <%= submit_tag "Post", class: 'button' %>
+                    </div>
+                </div>
+            </div>
+
+    <% end %>
+    </div>
+</div>

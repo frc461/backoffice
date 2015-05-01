@@ -6,7 +6,7 @@
 
         <title><%= content_for?(:title) ? yield(:title) : "WBI BackOffice" %></title>
 
-        <%= stylesheet_link_tag    "application" %>
+        <%= stylesheet_link_tag    "application", media: 'all' %>
         <%= javascript_include_tag "vendor/modernizr" %>
         <%= csrf_meta_tags %>
     </head>
@@ -25,6 +25,7 @@
                 <li><%= link_to "Mentors", mentors_path %></li>
                 <li><%= link_to "Groups", groups_path %></li>
                 <li><%= link_to "Meetings", meetings_path %></li>
+                <li><%= link_to "Polls", polls_path %></li>
             <% if current_mentor || current_role?('administrator') %>
                 <li><%= link_to "Parents", parents_path %></li>
             <% end %>
@@ -33,6 +34,7 @@
             <% end %>
             <% if current_role?('bookkeeper') %>
                 <li><%= link_to "Accounts", accounts_path %></li>
+                <li><%= link_to "Sponsors", sponsors_path %></li>
             <% end %>
             <% if current_role?('administrator') %>
                 <li><%= link_to "Aliases", aliases_path %></li>
@@ -63,7 +65,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row hide-for-print">
             <% if current_user %>
                 <dt>Menu</dt>
                 <dl class="sub-nav">
@@ -71,6 +73,7 @@
                 <dd><%= link_to "Mentors", mentors_path %></dd>
                 <dd><%= link_to "Groups", groups_path %></dd>
                 <dd><%= link_to "Meetings", meetings_path %></dd>
+                <li><%= link_to "Polls", polls_path %></li>
             <% if current_mentor || current_role?('administrator') %>
                 <dd><%= link_to "Parents", parents_path %></dd>
             <% end %>
@@ -79,6 +82,7 @@
             <% end %>
             <% if current_role?('bookkeeper') %>
                 <dd><%= link_to "Accounts", accounts_path %></dd>
+                <li><%= link_to "Sponsors", sponsors_path %></li>
             <% end %>
             <% if current_role?('administrator') %>
                 <dd><%= link_to "Aliases", aliases_path %></dd>

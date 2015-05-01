@@ -1,3 +1,5 @@
+require 'kramdown'
+
 module ApplicationHelper
     def foundation_flash
         flash_messages = []
@@ -27,5 +29,9 @@ module ApplicationHelper
         else
             image_tag 'generic.png', class: 'userimage'
         end 
+    end
+
+    def kr text
+        Kramdown::Document.new(text).to_html.html_safe
     end
 end
