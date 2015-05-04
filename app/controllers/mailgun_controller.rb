@@ -4,7 +4,7 @@ class MailgunController < ApplicationController
         to = params['recipient']
         from = params['sender']
         subject = params['subject']
-        body = params['body-plain']
+        body = params['body-html']
         token = params['token']
         timestamp = params['timestamp']
         signature = params['signature']
@@ -14,7 +14,6 @@ class MailgunController < ApplicationController
         end
         if Mailgun.verify(token, timestamp, signature)
             begin
-                if u = User.find(from)
                     Rails.logger.info("Valid message from #{from}")
                     case to
                     when /(.+)@boilerinvasion.org/i, /(.+)@a.boilerinvasion.org/i
@@ -28,35 +27,33 @@ class MailgunController < ApplicationController
                         end
 
                     when /(.+)@lists\.boilerinvasion\.org/i
-                        md = to.match(/(.+)@lists\.boilerinvasion\.org/i)
-                        Rails.logger.info("Message sent to lists")
-                        if md[1] =~ /students/i
-                            Rails.logger.info("Sending message to students")
-                            Mailgun.send(Student.list, from, "[WBI STUDENTS] #{subject}", body, Student.name_list, to, attachment)
-                        elsif md[1] =~ /mentors/i
-                            Rails.logger.info("Sending message to mentors")
-                            Mailgun.send(Mentor.list, from, "[WBI MENTORS] #{subject}", body, Mentor.name_list, to, attachment)
-                        elsif md[1] =~ /parents/i
-                            Rails.logger.info("Sending message to parents")
-                            Mailgun.send(Parent.list, from, "[WBI PARENTS] #{subject}", body, Parent.name_list, to, attachment)
-                        elsif md[1] =~ /everyone/i
-                            Rails.logger.info("Sending message to everyone")
-                            Mailgun.send(User.list, from, "[WBI] #{subject}", body, User.name_list, nil, attachment)
-                        else
-                            if g = Group.find(:first, md[1])
-                                Rails.logger.info("Sending message to #{g.cn.upcase} for #{md[1]}")
-                                Mailgun.send(g.list, from, (subject =~ /^\[/ ? subject : "[#{g.cn.upcase}] #{subject}"), body, g.name_list, to, attachment)
+                        if u = User.find(from)
+                            md = to.match(/(.+)@lists\.boilerinvasion\.org/i)
+                            Rails.logger.info("Message sent to lists")
+                            if md[1] =~ /students/i
+                                Rails.logger.info("Sending message to students")
+                                Mailgun.send(Student.list, from, "[WBI STUDENTS] #{subject}", body, Student.name_list, to, attachment)
+                            elsif md[1] =~ /mentors/i
+                                Rails.logger.info("Sending message to mentors")
+                                Mailgun.send(Mentor.list, from, "[WBI MENTORS] #{subject}", body, Mentor.name_list, to, attachment)
+                            elsif md[1] =~ /parents/i
+                                Rails.logger.info("Sending message to parents")
+                                Mailgun.send(Parent.list, from, "[WBI PARENTS] #{subject}", body, Parent.name_list, to, attachment)
+                            elsif md[1] =~ /everyone/i
+                                Rails.logger.info("Sending message to everyone")
+                                Mailgun.send(User.list, from, "[WBI] #{subject}", body, User.name_list, nil, attachment)
                             else
+                                if g = Group.find(:first, md[1])
+                                    Rails.logger.info("Sending message to #{g.cn.upcase} for #{md[1]}")
+                                    Mailgun.send(g.list, from, (subject =~ /^\[/ ? subject : "[#{g.cn.upcase}] #{subject}"), body, g.name_list, to, attachment)
+                                else
                                 Rails.logger.info("Bad group specified: #{md[1]}")
-                                render text: "Bad Group", status: 200
+                                    render text: "Bad Group", status: 200
+                                end
                             end
                         end
                     end
                     render text: "OK", status: 200
-                else
-                    Rails.logger.error("UNRECOGNIZED SENDER #{from}")
-                    render text: "Unrecognized sender", status: 200
-                end
             rescue => e
                 Rails.logger.error "EXCEPTION!!"
                 Rails.logger.error e.inspect

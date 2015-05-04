@@ -16,8 +16,8 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :code %><br>
-    <%= f.text_field :code %>
+      <%= f.label :code %><br>
+      <%= f.select :code, options_for_select(Account.CODES.map{|k| ["#{k[0]} - #{k[1]}", k[0]]}) %>
   <div class="field">
     <%= f.label :description %><br>
     <%= f.text_area :description %>

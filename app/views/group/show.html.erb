@@ -32,7 +32,7 @@
             <% r.each do |u| %>
                 <div class="large-3 columns">
                 <% if u %>
-                    <%= check_box_tag 'members[]', u.dn, @group.member.include?(u.dn) %>
+                    <%= check_box_tag 'members[]', u.dn, @group.member(true).include?(u.dn) %>
                 <%= u.cn %>
             <% end %>
             </div>
@@ -49,7 +49,7 @@
             <% r.each do |u| %>
                 <div class="large-3 columns">
                 <% if u %>
-                    <%= check_box_tag 'members[]', u.dn, @group.member.include?(u.dn) %>
+                    <%= check_box_tag 'members[]', u.dn, @group.member(true).include?(u.dn) %>
                 <%= u.cn %>
             <% end %>
             </div>
@@ -66,7 +66,7 @@
             <% r.each do |u| %>
                 <div class="large-3 columns">
                 <% if u %>
-                    <%= check_box_tag 'members[]', u.dn, @group.member.include?(u.dn) %>
+                    <%= check_box_tag 'members[]', u.dn, @group.member(true).include?(u.dn) %>
                 <%= u.cn %>
             <% end %>
             </div>
@@ -83,7 +83,7 @@
             <% r.each do |u| %>
                 <div class="large-3 columns">
                 <% if u %>
-                    <%= check_box_tag 'members[]', u.dn, @group.member.include?(u.dn) %>
+                    <%= check_box_tag 'members[]', u.dn, @group.member(true).include?(u.dn) %>
                 <%= u.cn %>
             <% end %>
             </div>
