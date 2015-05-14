@@ -1,4 +1,4 @@
-<% if current_user == user || current_mentor || current_role?('exec') || current_role?('administrator') || child_of_current_parent(user) %>
+<% if current_user == user || current_student || current_mentor || current_role?('exec') || current_role?('administrator') || child_of_current_parent(user) || parent_of_current_child(user) %>
 
     <div class="panel">
     <h3>Contact Info</h3>

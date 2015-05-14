@@ -49,4 +49,15 @@ class SessionController < ApplicationController
           redirect_to root_path
       end
   end
+
+  def move
+      user = User.find(params[:dn])
+      mail = user.mail
+      if OrgUnit.all.include?(params[:ou])
+            u = user.move(params[:ou])
+          redirect_to user_path(u.dn)
+      else
+          redirect_to user_path(dn: user.dn), notice: "Oops."
+      end
+  end
 end

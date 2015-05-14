@@ -22,4 +22,27 @@ class Parent < ActiveLdap::Base
       end
       h
   end
+
+  def Parent.create(mail, opts = {})
+      p = Parent.new(mail)
+      p.add_class 'organizationalPerson'
+      p.add_class 'person'
+      p.add_class 'top'
+
+      p.userPassword = 'robots'
+      p.gn = opts[:gn]
+      p.sn = opts[:sn]
+      p.cn = opts[:cn] || opts[:gn] + ' ' + opts[:sn]
+      if opts[:student]
+          p.seeAlso = [Student.find(opts[:student]).dn]
+      elsif opts[:students]
+          p.seeAlso = opts[:students].map{|s| Student.find(s).dn}
+      end
+
+      if p.save
+          p
+      else
+          nil
+      end
+  end
 end

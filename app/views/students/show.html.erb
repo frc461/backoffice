@@ -13,7 +13,7 @@
         </ul>
 
     </div>
-    <% if current_mentor || current_role?('administrator') %>
+    <% if current_mentor || current_role?('administrator') || current_user == @student %>
         <div class="large-3 columns">
         <h3>Parents</h3>
         <ul>
@@ -35,9 +35,12 @@
 
 
 <%= render partial: 'users/contact', locals: {user: @student} %>
-<% @student.parents.each do |p| %>
-    <%= render partial: 'users/contact', locals: {user: p} %>
+<% if current_user == @student || current_mentor || current_role?('exec') || current_role?('administrator') || child_of_current_parent(@student) || parent_of_current_child(@student) %>
+    <% @student.parents.each do |p| %>
+        <%= render partial: 'users/contact', locals: {user: p} %>
+    <% end %>
 <% end %>
 <%= render partial: 'users/accounts', locals: {user: @student} %>
 <%= render partial: 'users/password', locals: {user: @student} %>
 <%= render partial: 'users/demographics', locals: {user: @student} %>
+<%= render partial: 'users/org', locals: {user: @student} %>

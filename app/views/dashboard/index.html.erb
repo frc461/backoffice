@@ -8,9 +8,9 @@
         </div>
         <div class="large-6 columns">
             <div class="panel dash-cash">
-                <h5>Your Balance:</h5>
-                <h4><%= begin; humanized_money_with_symbol(current_user.accounts.count > 0 ? Account.where(:user_dn => current_user.dn.to_s, :code => 'D').map{|a| a.balance}.inject(:+) : 0); rescue; humanized_money_with_symbol(0); end %>
-                <h5>Team Balance:</h5>
+                <h5>Your Fundraising Responsibility:</h5>
+                <h4><%= begin; humanized_money_with_symbol(current_user.accounts.count > 0 ? (current_user.accounts.map{|a| a.balance}.inject(:+)) : 0); rescue; humanized_money_with_symbol(0); end %>
+                <h5>Team Fundraising Balance:</h5>
                 <h4><%= humanized_money_with_symbol(Account.all.count > 0 ? Account.where(:code => 'D').map{|a| a.balance}.inject(:+) : 0) %>
             </div>
         </div>

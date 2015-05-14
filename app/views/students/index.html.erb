@@ -7,7 +7,17 @@
         <% if student %>
             <%= link_to student_path(dn: student.dn) do %>
                 <%= user_photo student %> [<%= student.roomNumber %>]
-        <%= student.cn %>
+                <% if student.graduated? %>
+                    <span style="color: #2b2"><%= fa_icon 'graduation-cap' %>
+                <% end %>
+                <% if student.dropped? %>
+                    <span style="color: #c00"><%= fa_icon 'ban' %>
+                <% end %>
+                        <%= student.cn %>
+                        <% if student.graduated? || student.dropped? %>
+                        </span>
+                    <% end %>
+
     <% end %>
 
     <% end %>

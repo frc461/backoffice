@@ -1,6 +1,6 @@
 class Account < ActiveRecord::Base
     monetize :balance_cents
-    has_many :transactions
+    has_many :transactions, dependent: :destroy
 
     def Account.CODES
         {

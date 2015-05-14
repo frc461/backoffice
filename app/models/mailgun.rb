@@ -13,7 +13,7 @@ class Mailgun
                 :from => from,
                 :to => to,
                 :subject => subject,
-                :text => text,
+                :html => text,
                 :"h:Reply-To" => reply,
                 :'recipient-variables' => vars.to_json,
                 :attachment => attachments
@@ -26,7 +26,7 @@ class Mailgun
                 :to => to,
                 :"h:Reply-To" => "#{group.cn}@lists.boilerinvasion.org",
                 :subject => subject,
-                :text => text
+                :html => text
             end
         end
     end

@@ -37,6 +37,14 @@ class Student < ActiveLdap::Base
       end
   end
 
+  def graduated?
+      dn.to_s.match /,ou=Graduated,/
+  end
+  
+  def dropped?
+      dn.to_s.match /,ou=Dropped,/
+  end
+
   def Student.list
       self.find(:all).map{|s| s.mail}
   end

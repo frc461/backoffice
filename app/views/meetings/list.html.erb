@@ -15,10 +15,10 @@
     </thead>
 
     <tbody>
-    <% @meeting.attendance_list.sort_by{|u| [u.sn, u.gn] }.each do |u| %>
+    <% @meeting.checkins.sort_by{|c| [c.user.sn, c.user.gn] }.each do |c| %>
             <tr>
-                <td><%= user_photo(u) %></td>
-                <td><%= u.cn %><% if u.mobile %><br/><%= u.mobile %><% end %></td>
+                <td><%= user_photo(c.user) %></td>
+                <td><%= c.user.cn %><% if c.user.mobile %><br/><%= c.user.mobile %><% end %><br/><%= c.notes if c.notes %></td>
                 <td></td>
                 <td></td>
                 <td></td>

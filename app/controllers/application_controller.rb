@@ -31,6 +31,10 @@ class ApplicationController < ActionController::Base
         current_parent && current_user.students.include?(student) 
     end
 
+    def parent_of_current_child(parent)
+        current_student && current_user.parents.include?(parent)
+    end
+
     def user_path dn
        '/u?dn=' + dn.to_s
     end
@@ -54,5 +58,5 @@ class ApplicationController < ActionController::Base
         end
     end
 
-    helper_method :current_user, :current_role?, :current_mentor, :user_path, :child_of_current_parent, :nice_contact_attr
+    helper_method :current_user, :current_role?, :current_mentor, :current_student, :user_path, :child_of_current_parent, :parent_of_current_child, :nice_contact_attr
 end

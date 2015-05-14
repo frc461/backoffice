@@ -1,4 +1,4 @@
-<% if current_user == user || current_role?('directory') || current_role?('administrator') %>
+<% if current_user == user || current_role?('directory') || current_role?('administrator') || parent_of_current_child(user) %>
     <div class="panel">
     <h4>Update Contact Info</h4>
     <%= form_tag update_profile_path do %>

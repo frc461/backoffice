@@ -80,14 +80,14 @@ class MeetingsController < ApplicationController
           end
       else
           if current_user.dn == params[:user_dn] || current_mentor || current_role?('attendance') || current_role?('exec')
-              Checkin.create(:meeting_id => @meeting.id, :user_dn => params[:user_dn])
+              Checkin.create(:meeting_id => @meeting.id, :user_dn => params[:user_dn], notes: params[:notes])
               q = "Checked in."
           else
               q = "Only approved users can check other people into meetings."
           end
       end
 
-      render text: q
+      redirect_to @meeting
   end
 
   def unattend
@@ -106,7 +106,7 @@ class MeetingsController < ApplicationController
               q = "Only approved users can remove other people from meetings."
           end
       end
-      render text: q
+      redirect_to @meeting
   end
 
   private

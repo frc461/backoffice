@@ -10,10 +10,14 @@
 
 <% if current_mentor || current_role?('exec') || current_role?('attendance') || current_role?('administrator') || !@meeting.verified %>
     <div class="">
-    <% if current_user.attending?(@meeting) %>
+        <% if current_user.attending?(@meeting) %>
         <%= link_to "Leave", '#', data: {url: unattend_meeting_path(@meeting, user_dn: current_user.dn.to_s)}, class: 'button warning ajax' %>
 <% else %>
-    <%= link_to "Check In", '#', data: {url: attend_meeting_path(@meeting, user_dn: current_user.dn.to_s)}, class: 'button success ajax' %>
+    <%= form_tag attend_meeting_path(@meeting, user_dn: current_user.dn.to_s) do %>
+        <%= label_tag :notes, "Notes (coming late, leaving early, etc)" %>
+        <%= text_field_tag :notes %>
+        <%= submit_tag "Check In", class: 'button success' %> 
+    <% end %>
 <% end %>
 </div>
 <% end %>
@@ -21,14 +25,15 @@
 <% if current_user.attending?(@meeting) || current_mentor || current_role?('exec') || current_role?('attendance') || current_role?('administrator') %>
     <h3>Who's Checked In</h3>
     <div>
-    <% @meeting.attendance_list.in_groups_of(6) do |r| %>
+    <% @meeting.checkins.in_groups_of(6) do |r| %>
         <div class="row">
-            <% r.each do |u| %>
+            <% r.each do |c| %>
                 <div class="large-2 columns">
-                    <% if u %>
-                        <%= link_to user_path(u.dn) do %>
-                            <%= user_photo(u) %>
-                            <%= u.cn %>
+                    <% if c %>
+                        <%= link_to user_path(c.user.dn) do %>
+                            <%= user_photo(c.user) %>
+                            <%= c.user.cn %>
+                            <i><%= c.notes %></i>
                         <% end %>
                     <% end %>
                 </div>

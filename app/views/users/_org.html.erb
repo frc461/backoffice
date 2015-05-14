@@ -1,0 +1,11 @@
+<% if current_role?('directory') || current_role?('administrator') %>
+    <div class="panel">
+        <h4>Update Organizational Structure</h4>
+        <%= form_tag move_user_path do %>
+            <%= hidden_field_tag :dn, user.dn.to_s %>
+            <%= label_tag :ou, "Move to OU" %>
+            <%= select_tag :ou, options_for_select(OrgUnit.all) %>
+            <%= submit_tag "Move User", class: 'button' %>
+        <% end %>
+    </div>
+<% end %>

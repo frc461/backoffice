@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       member do
           get 'list'
           get 'attend'
+          post 'attend'
           get 'unattend'
       end
   end
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
 
   post 'reset' => 'session#reset', as: :reset_password
   post 'profile' => 'session#update', as: :update_profile
+  post 'move' => 'session#move', as: :move_user
   post 'session/create', as: :log_in
   get 'session/destroy', as: :log_out
 
