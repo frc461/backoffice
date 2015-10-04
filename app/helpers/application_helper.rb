@@ -34,4 +34,29 @@ module ApplicationHelper
     def kr text
         Kramdown::Document.new(text).to_html.html_safe
     end
+
+    def student_status_name(student)
+        if student.me.is_a? Student
+        str = ''
+        if student.graduated? 
+            str << '<span style="color: #22b">' + fa_icon('graduation-cap') + ' '
+        end 
+        if student.recruit?
+            str << '<span style="color: #2b3">' + fa_icon('plus-circle') + ' '
+        end 
+        if student.dropped?
+            str << '<span style="color: #c00">' + fa_icon('exclamation-triangle') + ' '
+        end
+        if student.orphan?
+            str << fa_stacked_icon('group', base: 'ban') + ' '
+        end
+        str << student.cn
+        if student.graduated? || student.dropped? || student.recruit?
+            str << '</span>'
+        end
+        str.html_safe
+        else
+            student.cn
+        end
+    end
 end

@@ -1,5 +1,5 @@
 class SponsorsController < ApplicationController
-  before_action :authorize, except: [:show]
+  before_action :authorize, except: [:show, :index]
     def index
         @sponsors = Sponsor.find(:all).sort_by{|s| [s.o]}
     end
@@ -27,6 +27,20 @@ class SponsorsController < ApplicationController
             end
         else
             redirect_to sponsor_path(dn: @sponsor.dn.to_s), error: 'Invalid account for transaction.'
+        end
+    end
+
+    def new
+    end
+
+    def create
+        nu = nil
+        ph = {description: params[:name], l: params[:email], postalAddress: params[:address], telephoneNumber: params[:phone]}
+        nu = Sponsor.create(params[:o], ph)
+        if nu
+            redirect_to sponsor_path(dn: nu.dn.to_s), notice: "Created sponsor."
+        else
+            redirect_to new_sponsor_path, error: nu.errors.to_s
         end
     end
 

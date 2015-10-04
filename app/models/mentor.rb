@@ -19,4 +19,21 @@ class Mentor < ActiveLdap::Base
       end
       h
   end
+
+  def Mentor.create mail, opts={}
+      m = Mentor.new mail
+
+      m.userPassword = opts[:password] || Rails.application.secrets.default_password
+      m.gn = opts[:gn]
+      m.sn = opts[:sn]
+      m.cn = opts[:cn] || opts[:gn] + ' ' + opts[:sn]
+      m.mobile = opts[:mobile]
+      m.telephoneNumber = opts[:phone]
+
+      if m.save
+          m
+      else
+          nil
+      end
+  end
 end

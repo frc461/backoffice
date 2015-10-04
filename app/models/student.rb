@@ -2,7 +2,8 @@ class Student < ActiveLdap::Base
   include Person
   ldap_mapping dn_attribute: "mail",
                prefix: "ou=Students",
-               classes: ["inetOrgPerson"]
+               classes: ["inetOrgPerson", "organizationalPerson", "person", "top"], 
+               scope: :sub
 
   def parents
       Parent.find(:all, filter: {seeAlso: self.dn.to_s})
@@ -10,39 +11,43 @@ class Student < ActiveLdap::Base
 
   
   def set_initial_accounts
-      #Account.create(code: "D", name: "Team Dues", description: "Do your part to keep the team running", user_dn: self.dn.to_s)
-      #Account.create(code: "M", name: "Incidentals", description: "Miscellaneous money for food, shirts, etc.", user_dn: self.dn.to_s)
-  end
-
-  def grade
-      case self.roomNumber
-      when 7
-          '7th Grade'
-      when 8
-          '8th Grade'
-      when 9
-          'Freshman'
-      when 10
-          'Sophomore'
-      when 11
-          'Junior'
-      when 12
-          'Senior'
-      else
-          if self.roomNumber.to_i > 1990
-            "Alumnus (#{self.roomNumber})"
-          else
-              "Undefined"
-          end
-      end
+      Account.create(code: "D", name: "Team Dues", description: "Do your part to keep the team running", user_dn: self.dn.to_s)
   end
 
   def graduated?
       dn.to_s.match /,ou=Graduated,/
   end
   
+  def recruit?
+      dn.to_s.match /,ou=Recruits,/
+  end
+
   def dropped?
       dn.to_s.match /,ou=Dropped,/
+  end
+
+  def orphan?
+      parents.count == 0
+  end
+
+  def Student.create mail, opts={}
+      s = Student.new mail
+
+      s.userPassword = opts[:password] || Rails.application.secrets.default_password
+      s.gn = opts[:gn]
+      s.sn = opts[:sn]
+      s.cn = opts[:cn] || opts[:gn] + ' ' + opts[:sn]
+      s.roomNumber = opts[:grad]
+      s.mobile = opts[:mobile]
+      s.telephoneNumber = opts[:phone]
+      s.homePostalAddress = opts[:address]
+      s.set_initial_accounts
+
+      if s.save
+          s
+      else
+          nil
+      end
   end
 
   def Student.list

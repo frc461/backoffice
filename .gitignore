@@ -21,3 +21,4 @@
 /config/ldap.yml
 /config/secrets.yml
 /public/assets
+*.mail.log

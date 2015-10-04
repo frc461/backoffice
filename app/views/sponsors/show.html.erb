@@ -42,7 +42,7 @@
 
                 <div class="large-3 columns">
                     <%= label_tag :icon %>
-                    <%= text_field_tag :icon, 'plus-circle' %>
+                    <%= select_tag :icon, options_for_select(FONT_AWESOME_ICONS, selected: 'plus-circle') %>
                 </div>
 
                 <div class="large-6 columns">

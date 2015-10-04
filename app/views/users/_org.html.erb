@@ -7,5 +7,6 @@
             <%= select_tag :ou, options_for_select(OrgUnit.all) %>
             <%= submit_tag "Move User", class: 'button' %>
         <% end %>
+        <%= link_to "Remove User & Associated Data", destroy_user_path(dn: user.dn.to_s), class: 'button alert', data: {confirm: "Really delete #{user.cn}"} %>
     </div>
 <% end %>

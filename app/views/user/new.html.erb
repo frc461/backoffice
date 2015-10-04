@@ -1,0 +1,59 @@
+<h1>Add a New User</h1>
+
+<%= form_tag create_user_path do %>
+    <div class="row">
+    <div class="large-6 columns">
+        <div class="panel">
+            <h2 class="type-title">What kind of user are you adding?</h2>
+            <div class="hider-type">
+                <% if current_student %>
+                    <div>
+                    <%= label_tag :add_type, "My Parent" %>
+                    <%= radio_button_tag :add_type, 'my_parent', false, class: 'selector' %>
+                </div>
+            <% end %>
+                <% if current_role?('administrator') %>
+                    <div>
+                    <%= label_tag :add_type, "New Student" %>
+                    <%= radio_button_tag :add_type, 'student', false, class: 'selector' %>
+                </div>
+                <div>
+                    <%= label_tag :add_type, "New Mentor" %>
+                    <%= radio_button_tag :add_type, 'mentor', false, class: 'selector' %>
+                </div>
+                <div>
+                    <%= label_tag :add_type, "New Parent" %>
+                    <%= radio_button_tag :add_type, 'parent', false, class: 'selector' %>
+                </div>
+            <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="large-6 columns">
+        <div class="hider-data" style="display: none">
+            <div class="fieldset-gn">
+                <%= label :gn, "First Name" %>
+                <%= text_field_tag :gn %>
+            </div>
+            <div class="fieldset-sn">
+                <%= label :sn, "Last Name" %>
+                <%= text_field_tag :sn %>
+            </div>
+            <div class="fieldset-mail">
+                <%= label :mail, "Email Address" %>
+                <%= text_field_tag :mail %>
+            </div>
+            <% if current_student %>
+                <%= hidden_field_tag :student, current_user.mail %>
+            <% end %>
+            <div>
+                <%= submit_tag "Add User", class: 'button' %>
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>
+
+<%= javascript_tag do %>
+
+<% end %>

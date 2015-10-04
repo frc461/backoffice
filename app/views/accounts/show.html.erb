@@ -20,7 +20,7 @@
 
             <div class="large-3 columns">
                 <%= label_tag :icon %>
-                <%= text_field_tag :icon, 'usd' %>
+                <%= select_tag :icon, options_for_select(FONT_AWESOME_ICONS, selected: 'usd') %>
             </div>
 
             <div class="large-3 columns">
@@ -49,7 +49,7 @@
             <tr>
                 <td><%= fa_icon t.icon %></td>
                 <td><%= t.created_at.strftime '%Y-%m-%d' %></td>
-                <td><%= t.poster.cn %></td>
+                <td><%= t.poster_dn ? t.poster.cn : 'System' %></td>
                 <td><%= t.description %></td>
                 <td><%= humanized_money_with_symbol t.amount %></td>
                 <td><%= humanized_money_with_symbol Money.new(bal) %></td>
@@ -59,5 +59,4 @@
     </tbody>
 </table>
 
-<%= link_to 'Edit', edit_account_path(@account) %> |
-<%= link_to 'Back', accounts_path %>
+<%= link_to 'Edit', edit_account_path(@account), class: 'button' %>

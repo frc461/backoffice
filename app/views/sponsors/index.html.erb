@@ -5,3 +5,7 @@
         <li><%= link_to s.o, sponsor_path(dn: s.dn.to_s) %></li>
 <% end %>
 </ul>
+
+<% if current_role?("bookkeeper") || current_role?("administrator") %>
+<%= link_to "Add New Sponsor", new_sponsor_path, class: 'button' %>
+<% end %>

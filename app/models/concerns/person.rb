@@ -8,6 +8,9 @@ module Person
         Account.where(user_dn: self.dn.to_s)
     end
 
+    def set_initial_accounts
+    end
+
     def user
         User.find(dn)
     end
@@ -25,15 +28,15 @@ module Person
     end
 
     def student?
-        org == "Student"
+        dn.to_s.match /,ou=Students,/
     end
 
     def mentor?
-        org == "Mentor"
+        dn.to_s.match /,ou=Mentors,/
     end
 
     def parent?
-        org == "Parent"
+        dn.to_s.match /,ou=Parents,/
     end
 
     def me
@@ -113,18 +116,21 @@ module Person
     def cleanup
         if is_a? Student
             parents.each do |p|
-                if p.seeAlso.length > 1
+                if p.seeAlso(true).length > 1
+                    logger.info "Removing Link between #{p.friendly} and #{friendly}"
                     s = p.seeAlso
                     s.delete dn
                     p.seeAlso = s
                     p.save
                 else
+                    logger.info "Deleting #{p.friendly} for #{friendly}"
                     p.delete
                 end
             end
         end
         Account.where(user_dn: dn.to_s).each{|a| a.delete}
         Vote.where(user_dn: dn.to_s).each{|v| v.delete}
+        Checkin.where(user_dn: dn.to_s).each{|v| v.delete}
         reset_groups
     end
 end

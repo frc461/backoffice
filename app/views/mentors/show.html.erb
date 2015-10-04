@@ -1,5 +1,7 @@
 <h2><%= @mentor.cn %></h2>
-
+<% if @mentor.description %>
+    <h4><%= @mentor.description %></h4>
+<% end %>
 <div class="row">
     <div class="large-2 columns">
         <%= user_photo @mentor %>
@@ -18,7 +20,7 @@
     <div class="large-5 columns">
         <h3>Roles</h3>
         <ul>
-            <% [@mentor.employeeType].flatten.each do |r| %>
+            <% @mentor.employeeType(true).each do |r| %>
                 <li><%= r %></li>
         <% end %>
         </ul>

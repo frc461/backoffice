@@ -27,6 +27,10 @@
     <%= f.label :permissions %><br>
     <%= f.text_area :permissions %>
   </div>
+  <div class="field">
+    <%= f.label :multiple, "Allow multiple options to be selected?" %><br>
+    <%= f.check_box :multiple %>
+  </div>
   <div class="actions">
     <%= f.submit nil, class: 'button' %>
   </div>

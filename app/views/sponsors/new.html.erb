@@ -1,0 +1,25 @@
+<h1>Add a New Sponsor</h1>
+
+<%= form_tag create_sponsor_path do %>
+    <div>
+        <%= label_tag :o, "Organization Name" %>
+        <%= text_field_tag :o %>
+    </div>
+    <div>
+        <%= label_tag :name, "Contact Name" %>
+        <%= text_field_tag :name %>
+    </div>
+    <div>
+        <%= label_tag :email, "Contact Email" %>
+        <%= text_field_tag :email %>
+    </div>
+    <div>
+        <%= label_tag :address, "Contact Address" %>
+        <%= text_field_tag :address %>
+    </div>
+    <div>
+        <%= label_tag :phone, "Contact Phone" %>
+        <%= text_field_tag :phone %>
+    </div>
+    <%= submit_tag "Add Sponsor", class: 'button' %>
+<% end %>

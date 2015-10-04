@@ -1,24 +1,42 @@
 <h1>Accounting</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Code</th>
-            <th>Owner</th>
-            <th>Account</th>
-            <th>Balance</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% @accounts.each do |account| %>
-            <tr>
+<div class="row">
+    <div class="large-8 columns">
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Owner</th>
+                    <th>Account</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @accounts.each do |account| %>
+                <tr>
                 <td><%= account.code %></td>
                 <td><%= account.user_dn.empty? ? 'System/System' : link_to(account.friendly_user, user_path(account.user_dn)) %></td>
                 <td><%= link_to account.name, account %></td>
                 <td><%= humanized_money_with_symbol account.balance %></td>
             </tr>
         <% end %>
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="large-4 columns">
+        <h2>Category Code Cashflow</h2>
+
+        <% Account.CODES.each_pair do |c, d| %>
+            <h4><%= d %></h4>
+            <% a = Account.where(code: c) %>
+            <% if a.map(&:transactions).flatten.count > 0 %>
+                <p><%= humanized_money_with_symbol(a.map(&:income).map{|x| x || 0}.inject(:+) / 100) %> - <%= humanized_money_with_symbol(a.map(&:expenses).map{|x| x || 0}.inject(:+) / -100) %> = <%= humanized_money_with_symbol(a.map(&:balance_cents).map{|x| x || 0}.inject(:+) / 100 )%></p>
+            <% else %>
+                <p><em>No transactions to report</em></p>
+            <% end %>
+        <% end %>
+    </div>
+</div>
 
 <%= link_to "Create Account", new_account_path, class: 'button' %>

@@ -96,7 +96,7 @@ class MeetingsController < ApplicationController
               Checkin.where(:meeting_id => @meeting.id, :user_dn => params[:user_dn]).delete_all
               q = "Left meeting."
           else
-              q = "An approved user must remove you in to this meeting."
+              q = "An approved user must remove you from this meeting."
           end
       else
           if current_user.dn == params[:user_dn] || current_mentor || current_role?('attendance') || current_role?('exec')

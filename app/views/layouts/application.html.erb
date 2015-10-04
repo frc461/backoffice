@@ -29,15 +29,18 @@
             <% if current_mentor || current_role?('administrator') %>
                 <li><%= link_to "Parents", parents_path %></li>
             <% end %>
-            <% if current_mentor || current_role?('exec') || current_role?('news') || current_role?('administrator') %>
+            <% if current_mentor || current_role?('board') || current_role?('news') || current_role?('administrator') %>
                 <li><%= link_to "News", news_index_path %></li>
             <% end %>
-            <% if current_role?('bookkeeper') %>
+            <% if current_role?('administrator') %>
+                <li><%= link_to "Aliases", aliases_path %></li>
+            <% end %>
+            <% if current_role?('bookkeeper') || current_role?('administrator') %>
                 <li><%= link_to "Accounts", accounts_path %></li>
                 <li><%= link_to "Sponsors", sponsors_path %></li>
             <% end %>
             <% if current_role?('administrator') %>
-                <li><%= link_to "Aliases", aliases_path %></li>
+                <li><%= link_to "New User", new_user_path %></li>
             <% end %>
         <% end %>
         <li id="alert-nav" class="has-dropdown<%= flash.count > 0 ? '' : ' hidden' %>"><%= link_to fa_icon('bell'), '#' %>
@@ -52,7 +55,7 @@
         <section class="top-bar-section">
         <ul class="right">
             <% if current_user %>
-                <li><%= link_to current_user.cn, me_path %></li>
+                <li><%= link_to student_status_name(current_user), me_path %></li>
                 <li><%= link_to "Log Out", log_out_path %></li>
             <% end %>
         </ul>
@@ -79,13 +82,6 @@
             <% end %>
             <% if current_mentor || current_role?('exec') || current_role?('news') || current_role?('administrator') %>
                 <dd><%= link_to "News", news_index_path %></dd>
-            <% end %>
-            <% if current_role?('bookkeeper') %>
-                <dd><%= link_to "Accounts", accounts_path %></dd>
-                <li><%= link_to "Sponsors", sponsors_path %></li>
-            <% end %>
-            <% if current_role?('administrator') %>
-                <dd><%= link_to "Aliases", aliases_path %></dd>
             <% end %>
         <% end %>
     </dl>

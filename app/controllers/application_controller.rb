@@ -53,6 +53,8 @@ class ApplicationController < ActionController::Base
             "Home Address"
         when 'telephoneNumber'
             "Home Phone"
+        when 'fax'
+            "Other Phone"
         when 'st'
             "Shirt Size"
         end

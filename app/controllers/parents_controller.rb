@@ -1,4 +1,5 @@
 class ParentsController < ApplicationController
+    before_action :authorize
   def index
       redirect_to root_path, error: "You can't do that." unless current_mentor || current_role?('administrator')
       @parents = Parent.find(:all)
@@ -11,4 +12,8 @@ class ParentsController < ApplicationController
       @accounts = Account.where(user_dn: @dns)
   end
 
+   private
+    def authorize
+      redirect_to root_path, alert: "You can't do that." unless current_user
+  end
 end

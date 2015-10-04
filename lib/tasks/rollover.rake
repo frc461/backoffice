@@ -1,4 +1,5 @@
 task :rollover => :environment do
-    Meeting.all.each {|e| e.delete}
-    Poll.all.each {|e| e.delete}
+    Meeting.all.each(&:delete)
+    Poll.all.each(&:delete)
+    Account.all.each(&:rollover)
 end

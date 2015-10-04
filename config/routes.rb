@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'user/new' => 'user#new', as: :new_user
+  get 'user/destroy' => 'user#destroy', as: :destroy_user
+  post 'user/create' => 'user#create', as: :create_user
+
   get 'utility/users'
   get 'utility/accounts'
 
@@ -35,15 +39,17 @@ Rails.application.routes.draw do
 
   get 'me' => 'dashboard#me', as: :me
 
-  post 'reset' => 'session#reset', as: :reset_password
-  post 'profile' => 'session#update', as: :update_profile
-  post 'move' => 'session#move', as: :move_user
+  post 'reset' => 'user#reset', as: :reset_password
+  post 'profile' => 'user#update', as: :update_profile
+  post 'move' => 'user#move', as: :move_user
   post 'session/create', as: :log_in
   get 'session/destroy', as: :log_out
 
   get 'sponsors' => 'sponsors#index', as: :sponsors
   get 'sponsors/show' => 'sponsors#show', as: :sponsor
+  get 'sponsors/new' => 'sponsors#new', as: :new_sponsor
   post 'sponsors/post' => 'sponsors#post', as: :post_sponsor
+  post 'sponsors/create' => 'sponsors#create', as: :create_sponsor
 
   get 'aliases' => 'alias#index', as: :aliases
   get 'aliases/show' => 'alias#show', as: :alias

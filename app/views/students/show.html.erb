@@ -1,4 +1,7 @@
-<h1><%= @student.cn %></h1>
+<h1><%= student_status_name @student %></h1>
+<% if @student.description %>
+    <h4><%= @student.description %></h4>
+<% end %>
 
 <div class="row">
     <div class="large-3 columns">
@@ -21,12 +24,15 @@
                 <li><%= link_to parent.cn, parent_path(dn: parent.dn) %></li>
         <% end %>
         </ul>
+        <% if current_user.dn == @student.dn %>
+            <%= link_to "Add Parent", new_user_path, class: 'button' %>
+        <% end %>
     </div>
 <% end %>
     <div class="large-3 columns">
         <h3>Roles</h3>
         <ul>
-            <% [@student.employeeType].flatten.each do |r| %>
+            <% @student.employeeType(true).each do |r| %>
                 <li><%= r %></li>
         <% end %>
         </ul>

@@ -62,7 +62,7 @@ class PollsController < ApplicationController
   end
 
   def vote
-      if @poll.can_vote(current_user) && Vote.create(poll_id: @poll.id, user_dn: current_user.dn.to_s, value: params[:opt])
+      if @poll.can_vote(current_user) && Vote.create(poll_id: @poll.id, user_dn: current_user.dn.to_s, value: params[:opt].join("::"))
           flash[:notice] = "Thanks for voting!"
       else
           flash[:error] = "Something went wrong!"
@@ -91,6 +91,6 @@ class PollsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def poll_params
-      params.require(:poll).permit(:title, :content, :options, :permissions)
+      params.require(:poll).permit(:title, :content, :options, :permissions, :multiple)
     end
 end
