@@ -11,7 +11,9 @@ class Student < ActiveLdap::Base
 
   
   def set_initial_accounts
-      Account.create(code: "D", name: "Team Dues", description: "Do your part to keep the team running", user_dn: self.dn.to_s)
+      APP_CONFIG['default_accounts']['student'].each do |acct|
+          Account.create(code: acct['code'], name: acct['name'], description: acct['description'], user_dn: self.dn.to_s)
+      end
   end
 
   def graduated?

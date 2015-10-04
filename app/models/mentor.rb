@@ -5,7 +5,9 @@ class Mentor < ActiveLdap::Base
                classes: ["inetOrgPerson"]
   
   def set_initial_accounts
-      Account.create(code: "M", name: "Incidentals", description: "Miscellaneous money for food, shirts, etc.", user_dn: self.dn.to_s)
+      APP_CONFIG['default_accounts']['mentor'].each do |acct|
+          Account.create(code: acct['code'], name: acct['name'], description: acct['description'], user_dn: self.dn.to_s)
+      end
   end
 
   def Mentor.list

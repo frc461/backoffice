@@ -13,8 +13,11 @@ class Parent < ActiveLdap::Base
   end
 
   def set_initial_accounts
-      Account.create(code: "M", name: "Incidentals", description: "Miscellaneous money for food, shirts, etc.", user_dn: self.dn.to_s)
+      APP_CONFIG['default_accounts']['parent'].each do |acct|
+          Account.create(code: acct['code'], name: acct['name'], description: acct['description'], user_dn: self.dn.to_s)
+      end
   end
+
   def Parent.list
       self.find(:all).map{|s| s.mail}
   end

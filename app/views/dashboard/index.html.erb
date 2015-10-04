@@ -31,3 +31,6 @@
 <% @news.each do |post| %>
     <%= render partial: 'news/news', locals: {news: post} %>
 <% end %>
+<% if current_mentor || current_role('exec') || current_role('news') %>
+    <%= link_to "Post New News", new_news_path, class: 'button' %>
+<% end %>

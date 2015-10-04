@@ -47,6 +47,13 @@ class MailgunController < ApplicationController
                                 Rails.logger.info("Sending message to everyone")
                                 Mailgun.send(User.list, recipient, "[WBI] #{subject}", body, User.name_list, from, attachment)
                                 render text: "OK", status: 200
+                            elsif md[1] =~ /meeting-\d+/i
+                                m = Meeting.find(md[1].match(/meeting-(\d+)/)[1])
+                                if m
+                                    Rails.logger.info("Sending message to #{m.name} attendees")
+                                    Mailgun.send(m.list, recipient, "[WBI #{m.name.upcase}] #{subject}", body, m.name_list, from, attachment)
+                                end
+
                             else
                                 if g = Group.find(:first, md[1])
                                     Rails.logger.info("Sending message to #{g.cn.upcase} for #{md[1]}")

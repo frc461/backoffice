@@ -101,6 +101,11 @@ module Person
             v.save
         end
 
+        Checkin.where(user_dn: old_dn.to_s).each do |c|
+            c.user_dn = new_target.dn.to_s
+            c.save
+        end
+
         new_target
     end
 

@@ -17,6 +17,7 @@ class UserController < ApplicationController
             nu = Parent.create(params[:mail], ph)
         end
         if nu
+            nu.set_initial_accounts
             redirect_to user_path(nu.dn), notice: "Created user."
         else
             redirect_to new_user_path, error: nu.errors.to_s

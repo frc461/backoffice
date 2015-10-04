@@ -1,0 +1,9 @@
+---
+site-title: "WBI BackOffice"
+default_accounts:
+    student:
+        - code: "D"
+          name: "Team Dues"
+          description: "Do your part to keep the team running"
+    mentor: []
+    parent: []
